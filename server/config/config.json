@@ -1,0 +1,6 @@
+{
+  "es": {
+    "host": "http://docker:9200",
+    "log": "trace"
+  }
+}

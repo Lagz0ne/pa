@@ -1,0 +1,6 @@
+{
+  "es": {
+    "host": "http://es:9200",
+    "log": "debug"
+  }
+}

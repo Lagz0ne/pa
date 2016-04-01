@@ -1,0 +1,99 @@
+import request from 'superagent';
+
+const serverUrl = '';
+const registrationUrl = `${serverUrl}/registration`;
+
+const ACTIONS = {
+  SEARCH_REQUEST: 'SEARCH_REQUEST',
+  SEARCH_REQUEST_SUCCESS: 'SEARCH_REQUEST_SUCCESS',
+  SEARCH_REQUEST_FAILURE: 'SEARCH_REQUEST_FAILURE',
+
+  PICKUP_REQUEST: 'PICKUP_REQUEST',
+  PICKUP_REQUEST_SUCCESS: 'PICKUP_REQUEST_SUCCESS',
+  PICKUP_REQUEST_FAILURE: 'PICKUP_REQUEST_FAILURE',
+}
+
+export const actions = ACTIONS;
+
+/** Search functionalities **/
+export function searchRequest(searchKeyword) {
+  return {
+    type: ACTIONS.SEARCH_REQUEST,
+    search: searchKeyword
+  };
+}
+
+export function searchSuccess(searchResult) {
+  return {
+    type: ACTIONS.SEARCH_REQUEST_SUCCESS,
+    searchResult
+  };
+}
+
+export function searchFailure(err, search) {
+  return {
+    type: ACTIONS.SEARCH_REQUEST_FAILURE,
+    err,
+    search
+  };
+}
+
+export function search(searchKeyword) {
+  return dispatch => {
+    dispatch(searchRequest(searchKeyword));
+    return request
+      .get(`${registrationUrl}/search`)
+      .query({
+        searchKeyword: searchKeyword
+      })
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (err) {
+          dispatch(searchFailure(err, search));
+        } else {
+          dispatch(searchSuccess(res.body));
+        }
+      });
+  };
+}
+
+/** Pick up functionalities **/
+export function pickupRequest(id) {
+  return {
+    type: ACTIONS.PICKUP_REQUEST,
+    id
+  };
+}
+
+export function pickupSuccess(id, pickupResult) {
+  return {
+    type: ACTIONS.PICKUP_REQUEST_SUCCESS,
+    id,
+    pickupResult
+  };
+}
+
+export function pickupFailure(err, id) {
+  return {
+    type: ACTIONS.PICKUP_REQUEST_FAILURE,
+    err,
+    id
+  };
+}
+
+export function pickup(id) {
+  return dispatch => {
+    dispatch(pickupRequest(id));
+    return request
+      .post(`${registrationUrl}/pickup`)
+      .send({ id })
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (err) {
+          dispatch(pickupFailure(err, id));
+        } else {
+          dispatch(pickupSuccess(id, res.body));
+        }
+      });
+  };
+}
