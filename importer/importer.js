@@ -7,12 +7,14 @@ import Rx from 'rx';
 import fecha from 'fecha';
 import _ from 'lodash';
 
+import config from '../server/config';
+
 const stream = fs.createReadStream('./files/data.csv');
 
 /** Elasticsearch client **/
 const es = new Client({
-  host: 'http://e.pu1se.work:9200/',
-  log: 'debug'
+  host: config.import.host,
+  log: config.import.log
 });
 
 /** check if we have indices, otherwise, create new **/

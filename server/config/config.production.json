@@ -2,5 +2,9 @@
   "es": {
     "host": "http://es:9200",
     "log": "debug"
+  },
+  "import": {
+    "host": "http://e.pu1se.work:9200",
+    "log": "trace"
   }
 }
