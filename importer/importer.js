@@ -11,7 +11,7 @@ const stream = fs.createReadStream('./files/data.csv');
 
 /** Elasticsearch client **/
 const es = new Client({
-  host: 'http://docker:9200/',
+  host: 'http://e.pu1se.work:9200/',
   log: 'debug'
 });
 

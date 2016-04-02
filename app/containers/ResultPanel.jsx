@@ -87,7 +87,7 @@ class ResultPanel extends Component {
         {_.map(this.props.searchResult, result => (
           <Col xs={12} sm={6} md={4} key={result.id} style={paddingBottom}>
             <Card>
-              <CardTitle title={result.name} subtitle={result.email}/>
+              <CardTitle title={result.name} subtitle={result.email === '' ? 'no email provided' : result.email}/>
 
               <CardText>
                 <Row top="xs">
@@ -102,7 +102,7 @@ class ResultPanel extends Component {
                       icon={<DateIcon />}
                     />
                     <br/>
-                    
+
                     <RaisedButton
                       disabled={true}
                       label={result.phone === '' ? 'N/A' : result.phone}
