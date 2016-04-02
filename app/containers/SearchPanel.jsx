@@ -12,7 +12,7 @@ import * as searchActions from '../actions/eventActions';
 import * as globalActions from '../actions/globalActions';
 
 class SearchPanel extends Component {
-  onSearchKeywordChange = (e) => this.props.globalFormState('search.keyword', e.target.value);
+  onSearchKeywordChange = (e) => this.props.persistSearchForm(e.target.value);
 
   submit = (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ class SearchPanel extends Component {
           <TextField
             fullWidth={true}
             hintText='All da search'
-            floatingLabelText='Name, phone, email'
+            floatingLabelText='Anything'
             value={this.props.searchKeyword}
             onEnterKeyDown={this.submit}
             onChange={this.onSearchKeywordChange}

@@ -12,3 +12,7 @@ export function globalFormState(branch, value) {
     value
   };
 }
+
+export function persistSearchForm(value) {
+  return globalFormState('search.keyword', value);
+}

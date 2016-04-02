@@ -3,6 +3,8 @@ import {Client} from 'elasticsearch';
 import Rx from 'rx';
 import config from '../config';
 
+import _ from 'lodash';
+
 /** Elasticsearch client **/
 const es = new Client({
   host: config.es.host,
@@ -13,6 +15,11 @@ export function search(searchKeyword) {
   return Rx.Observable.fromPromise(es.search({
       index: 'pulseactive',
       type : 'events',
+      size : 20,
+      sort: [
+        "pickedUp",
+        "name"
+      ],
       body: {
         "query" : {
           "query_string": {
@@ -35,5 +42,18 @@ export function pickup(id) {
           pickedUp: true
         }
       }
+    }));
+}
+
+export function pickupAll(ids) {
+  const updatedArray = _.map(ids, id => {
+    return [
+      { update: {'_index': 'pulseactive', '_type': 'events', _id: id} },
+      { doc: { pickedUp: true }}
+    ]
+  });
+  console.log(_.flattenDeep(updatedArray));
+  return Rx.Observable.fromPromise(es.bulk({
+      body: _.flattenDeep(updatedArray)
     }));
 }

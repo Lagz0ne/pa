@@ -25,6 +25,7 @@ import Colors from 'material-ui/lib/styles/colors';
 import fecha from 'fecha';
 
 import * as eventActions from '../actions/eventActions';
+import * as globalActions from '../actions/globalActions';
 
 const buttonStyle = {
   margin: 10,
@@ -48,6 +49,14 @@ class ResultPanel extends Component {
     }
   }
 
+  onRegistrationClicked = (keyword) => {
+    return (e) => {
+      e.preventDefault();
+      this.props.persistSearchForm(keyword);
+      this.props.search(keyword);
+    }
+  }
+
   _convertDate = (date) => {
     const convertedDate = fecha.parse(date, 'YYYY-M-D');
     return fecha.format(convertedDate, 'YYYY-MM-DD');
@@ -57,13 +66,13 @@ class ResultPanel extends Component {
     return (
       <Row>
         {_.map(this.props.searchResult, result => (
-          <Col xs={12} sm={6} key={result.id} style={paddingBottom}>
+          <Col xs={12} sm={6} md={4} key={result.id} style={paddingBottom}>
             <Card>
               <CardTitle title={result.name} />
 
               <CardText>
                 <Row top="xs">
-                  <Col xs={8}>
+                  <Col xs={7}>
                     <RaisedButton
                       disabled={true}
                       label={this._convertDate(result.birthDate)}
@@ -96,22 +105,24 @@ class ResultPanel extends Component {
                     />
 
                   </Col>
-                  <Col xs={4}>
-                    <RaisedButton
-                      disabled={true}
-                      disabledBackgroundColor={Colors.indigo400}
-                      disabledLabelColor={Colors.white}
+                  <Col xs={5}>
+                    <FlatButton
                       fullWidth={true}
-                      style={{paddingBottom: '5px'}}
+                      style={{width: '100%'}}
+                      labelStyle={{color: result.pickedUp ? Colors.grey500 : Colors.white}}
+                      fullWidth={true}
                       label={result.registrationNumber}
-                      />
+                      backgroundColor={result.pickedUp? Colors.grey100 : Colors.indigo300 }
+                      hoverColor={Colors.indigo100}
+                      onMouseDown={this.onRegistrationClicked(result.registrationNumber)} />
 
                     <RaisedButton
                       disabled={true}
-                      disabledBackgroundColor={Colors.indigo400}
-                      disabledLabelColor={Colors.white}
+                      disabledBackgroundColor={result.pickedUp ? Colors.grey100 : Colors.indigo300}
+                      disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
                       fullWidth={true}
                       label={result.tShirt}
+                      style={{marginTop: '5px'}}
                       />
                   </Col>
                 </Row>
@@ -123,7 +134,7 @@ class ResultPanel extends Component {
                   fullWidth={true}
                   disabledBackgroundColor={Colors.grey100}
                   disabledLabelColor={Colors.grey500}
-                  label={`${result.pickedUp ? 'Picked up' : 'Pick up'}`} primary={true}
+                  label={result.pickedUp ? 'Picked up' : 'Pick up'} primary={true}
                   onClick={this.onPickupClicked(result.id)}
                   />
               </CardActions>
@@ -137,5 +148,5 @@ class ResultPanel extends Component {
 
 export default connect(
   state => ({searchResult: state.app.search.searchResult}),
-  dispatch => bindActionCreators(eventActions, dispatch)
+  dispatch => bindActionCreators({ ...globalActions, ...eventActions }, dispatch)
 )(ResultPanel);

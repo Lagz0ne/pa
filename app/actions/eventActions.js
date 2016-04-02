@@ -11,6 +11,10 @@ const ACTIONS = {
   PICKUP_REQUEST: 'PICKUP_REQUEST',
   PICKUP_REQUEST_SUCCESS: 'PICKUP_REQUEST_SUCCESS',
   PICKUP_REQUEST_FAILURE: 'PICKUP_REQUEST_FAILURE',
+
+  PICKUP_ALL_REQUEST: 'PICKUP_ALL_REQUEST',
+  PICKUP_ALL_REQUEST_SUCCESS: 'PICKUP_ALL_REQUEST_SUCCESS',
+  PICKUP_ALL_REQUEST_FAILURE: 'PICKUP_ALL_REQUEST_FAILURE',
 }
 
 export const actions = ACTIONS;
@@ -93,6 +97,47 @@ export function pickup(id) {
           dispatch(pickupFailure(err, id));
         } else {
           dispatch(pickupSuccess(id, res.body));
+        }
+      });
+  };
+}
+
+/** Pick up all functionalities **/
+export function pickupAllRequest(ids) {
+  return {
+    type: ACTIONS.PICKUP_ALL_REQUEST,
+    ids
+  };
+}
+
+export function pickupAllSuccess(ids, pickupResult) {
+  return {
+    type: ACTIONS.PICKUP_ALL_REQUEST_SUCCESS,
+    ids,
+    pickupResult
+  };
+}
+
+export function pickupAllFailure(err, id) {
+  return {
+    type: ACTIONS.PICKUP_ALL_REQUEST_FAILURE,
+    err,
+    id
+  };
+}
+
+export function pickupAll(ids) {
+  return dispatch => {
+    dispatch(pickupRequest(ids));
+    return request
+      .post(`${registrationUrl}/pickup`)
+      .send({ ids })
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (err) {
+          dispatch(pickupAllFailure(err, ids));
+        } else {
+          dispatch(pickupAllSuccess(ids, res.body));
         }
       });
   };
