@@ -21,8 +21,9 @@ class SearchPanel extends Component {
 
   render() {
     return (
-      <div>
-        <Row>
+
+      <Row>
+        <Col xs={12}>
           <TextField
             fullWidth={true}
             hintText='All da search'
@@ -31,8 +32,9 @@ class SearchPanel extends Component {
             onEnterKeyDown={this.submit}
             onChange={this.onSearchKeywordChange}
             />
-        </Row>
-      </div>
+        </Col>
+      </Row>
+
     )
   }
 }

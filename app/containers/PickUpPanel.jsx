@@ -12,12 +12,9 @@ import Colors from 'material-ui/lib/styles/colors';
 
 import Divider from 'material-ui/lib/divider';
 
-import * as eventActions from '../actions/eventActions';
+import ConfirmableButton from '../components/confirmable';
 
-const noPaddingStyle = {
-  'marginLeft': '0.2rem',
-  'marginRight': '0.2rem'
-}
+import * as eventActions from '../actions/eventActions';
 
 
 class PickupPanel extends Component {
@@ -103,7 +100,17 @@ class PickupPanel extends Component {
         ))}
         <Divider/>
         <Row>
-          <Col xs={9}/>
+          <Col xs={9}>
+            <RaisedButton
+              fullWidth={true}
+              disabled={true}
+              label="Total"
+              labelPosition="after"
+              linkButton={true}
+              disabledBackgroundColor={Colors.white}
+              disabledLabelColor={Colors.grey800}
+            />
+          </Col>
           <Col xs={3}>
             <RaisedButton
               fullWidth={true}
@@ -118,12 +125,10 @@ class PickupPanel extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-            <RaisedButton
-              fullWidth={true}
-              label={`Pick up all`}
-              primary={true}
-              onMouseDown={this.pickUpAll(ids)}
-              />
+            <ConfirmableButton
+              actionLabel='Pick up all'
+              action={this.pickUpAll(ids)}
+            />
           </Col>
         </Row>
       </div>

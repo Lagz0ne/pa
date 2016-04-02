@@ -14,7 +14,7 @@ export function search(req, res) {
 
 export function pickup(req, res) {
   console.log(req.body);
-  if (req.body.id && _.isString(id)) {
+  if (req.body.id && _.isString(req.body.id)) {
     registrations.pickup(req.body.id)
       .subscribe(
         result => res.json(result),
