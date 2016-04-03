@@ -32,7 +32,7 @@ export default class Confirmable extends Component {
   _onYes = (e) => {
     e.preventDefault();
     this.setState({ confirming: false, confirmed: true });
-    this.props.action();
+    this.props.action(e);
   }
 
   _onNo = (e) => {
