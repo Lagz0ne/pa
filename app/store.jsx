@@ -7,6 +7,8 @@ const rootReducer = combineReducers({app});
 
 const enhancer = compose(applyMiddleware(thunkMiddleware));
 
-const store = createStore(rootReducer, {}, enhancer);
+const initialState = (window.__INITIAL_DATA__) ? window.__INITIAL_DATA__ : {};
+
+const store = createStore(rootReducer, initialState, enhancer);
 
 export default store;

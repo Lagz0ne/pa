@@ -60,7 +60,7 @@ class ResultPanel extends Component {
 
   _convertDate = (date) => {
     const convertedDate = fecha.parse(date, 'YYYY-M-D');
-    return fecha.format(convertedDate, 'YYYY-MM-DD');
+    return fecha.format(convertedDate, 'DD/MM/YYYY');
   }
 
   _renderGroupButton = (result) => {

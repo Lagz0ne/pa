@@ -10,7 +10,7 @@ import LoadStatus from './LoadStatus';
 export default() => (
   <div>
     <Header/>
-    <Grid>
+    <Grid style={{margin: '0px 2px'}}>
       <Row>
         <Col xs={12} sm={3} md={2}>
           <SearchPanel />

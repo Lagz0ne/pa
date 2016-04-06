@@ -15,7 +15,7 @@ export function search(searchKeyword) {
   return Rx.Observable.fromPromise(es.search({
       index: 'pulseactive',
       type : 'events',
-      size : 20,
+      size : 50,
       sort: [
         // {"pickedUp": {"missing": "_first"}},
         "name"

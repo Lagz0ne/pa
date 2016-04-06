@@ -2,11 +2,17 @@ import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import compress from 'compression';
+import passport from './passport';
+import session from 'express-session';
 
 import registrations from './route/registrationRoute';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const app = express();
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/www');
 
 if (!isProduction) {
   const webpack = require('webpack');
@@ -26,16 +32,49 @@ if (!isProduction) {
   app.use(compress());
 }
 
+/** Passport initialization **/
+app.use(session({
+  secret: 'tooDeep',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 /** Registrations routes **/
 app.use('/registration', registrations);
 
+/** authentication **/
+app.get('/authenticate', passport.authenticate('google', { scope: ['profile'] }));
+app.get('/logged',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    res.redirect('/');
+  });
+
+
 /** Default html hosting **/
 app.use(express.static(__dirname + '/../build'));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './www/index.html'));
+  if (req.user) {
+    res.render('index', {
+      app: JSON.stringify({
+        app: {
+          user: {
+            isLoggedIn: true,
+            displayName: req.user.displayName
+          }
+        }
+      })
+    });
+  } else {
+    res.render('index', {
+      app: "{}"
+    });
+  }
 });
 
 app.listen(8080, '0.0.0.0', (err) => {

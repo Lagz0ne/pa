@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/lib/raised-button';
 
 /** Colors **/
 import Colors from 'material-ui/lib/styles/colors';
+import Typography from 'material-ui/lib/styles/typography';
 
 import Divider from 'material-ui/lib/divider';
 
@@ -29,8 +30,10 @@ class PickupPanel extends Component {
   renderSummary = (accumulatedByOne, accumulatedByMany, idsByGroup) => {
     return (
       <Row>
-        {this.renderIndividualSummary(accumulatedByOne)}
-        {this.renderGroupsSummary(accumulatedByMany, idsByGroup)}
+        <Col xs={12}>
+          {this.renderIndividualSummary(accumulatedByOne)}
+          {this.renderGroupsSummary(accumulatedByMany, idsByGroup)}
+        </Col>
       </Row>
     )
   }
@@ -43,8 +46,48 @@ class PickupPanel extends Component {
     return _.map(accumulatedByMany, (group, groupName) => this.renderGroupSummary(group, groupName, idsByGroup[groupName]));
   }
 
+  renderSize = (key, amount) => {
+    console.log(amount);
+    return (
+      <Row>
+        <Col xs={6}>
+          <RaisedButton
+            fullWidth={true}
+            disabled={true}
+            label={key}
+            labelPosition="after"
+            linkButton={true}
+            disabledBackgroundColor={Colors.white}
+            disabledLabelColor={amount === 0 ? Colors.grey400 : Colors.grey800}
+          />
+        </Col>
+        <Col xs={3}>
+          <RaisedButton
+            fullWidth={true}
+            disabled={true}
+            label="×"
+            labelPosition="after"
+            linkButton={true}
+            disabledBackgroundColor={Colors.white}
+            disabledLabelColor={amount === 0 ? Colors.grey400 : Colors.grey800}
+          />
+        </Col>
+        <Col xs={3}>
+          <RaisedButton
+            fullWidth={true}
+            disabled={true}
+            label={amount + ' '}
+            labelPosition="after"
+            linkButton={true}
+            disabledBackgroundColor={Colors.white}
+            disabledLabelColor={amount === 0 ? Colors.grey400 : Colors.grey800}
+          />
+        </Col>
+      </Row>
+    );
+  }
+
   renderGroupSummary = (group, groupName, ids) => {
-    const sortedKeys = _.keys(group).sort();
     const sum = _.sum(_.values(group));
 
     return (
@@ -61,43 +104,13 @@ class PickupPanel extends Component {
               />
           </Col>
         </Row>
-        {_.map(sortedKeys, key => (
-          <Row key={key}>
-            <Col xs={6}>
-              <RaisedButton
-                fullWidth={true}
-                disabled={true}
-                label={key}
-                labelPosition="after"
-                linkButton={true}
-                disabledBackgroundColor={Colors.white}
-                disabledLabelColor={Colors.grey800}
-              />
-            </Col>
-            <Col xs={3}>
-              <RaisedButton
-                fullWidth={true}
-                disabled={true}
-                label="×"
-                labelPosition="after"
-                linkButton={true}
-                disabledBackgroundColor={Colors.white}
-                disabledLabelColor={Colors.grey800}
-              />
-            </Col>
-            <Col xs={3}>
-              <RaisedButton
-                fullWidth={true}
-                disabled={true}
-                label={group[key]}
-                labelPosition="after"
-                linkButton={true}
-                disabledBackgroundColor={Colors.white}
-                disabledLabelColor={Colors.grey800}
-              />
-            </Col>
-          </Row>
-        ))}
+
+        {this.renderSize('S', group['S'] || 0)}
+        {this.renderSize('M', group['M'] || 0)}
+        {this.renderSize('L', group['L'] || 0)}
+        {this.renderSize('XL', group['XL'] || 0)}
+        {this.renderSize('XXL', group['XXL'] || 0)}
+
         <Divider/>
         <Row>
           <Col xs={9}>
@@ -105,6 +118,7 @@ class PickupPanel extends Component {
               fullWidth={true}
               disabled={true}
               label="Total"
+              labelStyle={{fontWeight: 'bold'}}
               labelPosition="after"
               linkButton={true}
               disabledBackgroundColor={Colors.white}
@@ -117,6 +131,7 @@ class PickupPanel extends Component {
               disabled={true}
               label={sum}
               labelPosition="after"
+              labelStyle={{fontWeight: 'bold'}}
               linkButton={true}
               disabledBackgroundColor={Colors.white}
               disabledLabelColor={Colors.grey800}
