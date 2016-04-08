@@ -6,5 +6,8 @@
   "import": {
     "host": "http://docker:9200",
     "log": "trace"
+  },
+  "loki": {
+    "file": "orders.json"
   }
 }

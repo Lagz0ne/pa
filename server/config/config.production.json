@@ -6,5 +6,8 @@
   "import": {
     "host": "http://e.pu1se.work:9200",
     "log": "trace"
+  },
+  "loki": {
+    "file": "/var/data/loki/orders.json"
   }
 }

@@ -3,6 +3,7 @@ import * as registrationStore from './registration';
 import Rx from 'rx';
 import lokiDB from 'lokijs';
 import _ from 'lodash';
+import config from '../config';
 
 const loadHandler = (result) => {
   const orderStats = orderDB.getCollection('stats');
@@ -19,7 +20,7 @@ const loadHandler = (result) => {
   }
 }
 
-const orderDB = new lokiDB('orders.json', {
+const orderDB = new lokiDB(config.loki.file, {
   autosave: true,
   autoload: true,
   autoloadCallback: loadHandler
