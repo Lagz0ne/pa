@@ -2,13 +2,13 @@ import 'babel-polyfill';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { Router, browserHistory } from 'react-router';
+import { Router } from 'react-router';
 
 /** Load theme **/
 import appTheme from './app.scss';
 import theme from './theme';
 
-import store from './store';
+import { history, store } from './store';
 import route from './route';
 
 /** This hack is for material ui **/
@@ -22,11 +22,9 @@ class Root extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div>
-          <Router history={browserHistory}>
-            {route}
-          </Router>
-        </div>
+        <Router history={history}>
+          {route}
+        </Router>
       </Provider>
     );
   }

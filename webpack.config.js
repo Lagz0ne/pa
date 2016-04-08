@@ -20,7 +20,11 @@ module.exports = {
     modulesDirectories: [
       'node_modules',
       path.resolve(__dirname, './node_modules')
-    ]
+    ],
+    alias: {
+      components: __dirname + '/app/components',
+      actions: __dirname + '/app/actions'
+    }
   },
   module: {
     loaders: [{

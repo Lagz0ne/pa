@@ -1,14 +1,19 @@
+import { browserHistory } from 'react-router';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import app from './reducers';
 
-const rootReducer = combineReducers({app});
+const rootReducer = combineReducers({
+  app,
+  routing: routerReducer
+});
 
 const enhancer = compose(applyMiddleware(thunkMiddleware));
 
 const initialState = (window.__INITIAL_DATA__) ? window.__INITIAL_DATA__ : {};
 
-const store = createStore(rootReducer, initialState, enhancer);
-
-export default store;
+export const store = createStore(rootReducer, initialState, enhancer);
+export const history = syncHistoryWithStore(browserHistory, store);

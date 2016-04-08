@@ -13,7 +13,7 @@ import CardTitle from 'material-ui/lib/card/card-title';
 /** Buttons **/
 import RaisedButton from 'material-ui/lib/raised-button';
 import FlatButton from 'material-ui/lib/flat-button';
-import ConfirmableButton from '../components/confirmable';
+import ConfirmableButton from 'components/confirmable';
 
 /** icons **/
 import DateIcon from 'material-ui/lib/svg-icons/action/date-range';
@@ -25,8 +25,9 @@ import Colors from 'material-ui/lib/styles/colors';
 
 import fecha from 'fecha';
 
-import * as eventActions from '../actions/eventActions';
-import * as globalActions from '../actions/globalActions';
+import * as eventActions from '../../actions/eventActions';
+import * as globalActions from '../../actions/globalActions';
+import * as orderActions from 'actions/orderActions';
 
 const buttonStyle = {
   margin: 10,
@@ -43,10 +44,17 @@ const paddingBottom = {
 
 class ResultPanel extends Component {
 
-  onPickupClicked = (id) => {
+  onAddToOrderClicked = (registration) => {
     return (e) => {
       e.preventDefault();
-      this.props.pickup(id);
+      this.props.addToOrder(registration);
+    }
+  }
+
+  onRemoveFromOrderClicked = (registration) => {
+    return (e) => {
+      e.preventDefault();
+      this.props.removeFromOrder(registration);
     }
   }
 
@@ -81,9 +89,66 @@ class ResultPanel extends Component {
     }
   }
 
+  onAddAllToOrderClicked = () => {
+    const filteredArray = _.filter(this.props.searchResult, result => !!!result.orderId);
+    this.props.addToOrder(filteredArray);
+
+  }
+
+  renderAddAllToOrderButton = () => {
+    if (this.props.searchResult && this.props.searchResult.length > 0) {
+      return (
+        <Col xs={12}>
+          <RaisedButton
+            style={{marginTop: '15px', marginBottom: '15px'}}
+            primary={true}
+            onMouseDown={this.onAddAllToOrderClicked}
+            label="Add all to order"
+            />
+        </Col>
+      )
+    }
+    return false;
+  }
+
+  _renderActionButton = (result, groupedById) => {
+    if (!!result.orderId) { // Already in another order
+      return (
+        <ConfirmableButton
+          disabled={true}
+          disabledLabel={`Added to order ${result.orderId}`}
+        />
+      )
+    } else if (!!groupedById[result.id]) { // Is added
+      return (
+        <RaisedButton
+          fullWidth={true}
+          backgroundColor={Colors.lightGreen500}
+          labelColor={Colors.white}
+          label="Remove from order"
+          onMouseDown={this.onRemoveFromOrderClicked(result)}
+        />
+      );
+    } else {
+      return (
+        <RaisedButton
+          fullWidth={true}
+          primary={true}
+          labelColor={Colors.white}
+          label="Add to order"
+          onMouseDown={this.onAddToOrderClicked(result, groupedById)}
+        />
+      );
+    }
+
+  }
+
   render() {
+    const addedToOrder = _.intersectionBy(this.props.searchResult, this.props.addedToOrder, 'id');
+    const groupedById = _.groupBy(addedToOrder, 'id');
     return (
       <Row>
+        {this.renderAddAllToOrderButton()}
         {_.map(this.props.searchResult, result => (
           <Col xs={12} sm={6} md={4} key={result.id} style={paddingBottom}>
             <Card>
@@ -141,12 +206,7 @@ class ResultPanel extends Component {
               </CardText>
 
               <CardActions>
-                <ConfirmableButton
-                  disabled={result.pickedUp}
-                  disabledLabel='Picked up'
-                  actionLabel='Pick up'
-                  action={this.onPickupClicked(result.id)}
-                />
+                {this._renderActionButton(result, groupedById)}
               </CardActions>
             </Card>
           </Col>
@@ -157,6 +217,9 @@ class ResultPanel extends Component {
 }
 
 export default connect(
-  state => ({searchResult: state.app.search.searchResult}),
-  dispatch => bindActionCreators({ ...globalActions, ...eventActions }, dispatch)
+  state => ({
+    addedToOrder: state.app.order.registrations,
+    searchResult: state.app.search.searchResult
+  }),
+  dispatch => bindActionCreators({ ...globalActions, ...eventActions, ...orderActions }, dispatch)
 )(ResultPanel);

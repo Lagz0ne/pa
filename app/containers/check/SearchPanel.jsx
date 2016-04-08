@@ -8,8 +8,8 @@ import DatePicker from 'material-ui/lib/date-picker/date-picker';
 
 import TextField from 'material-ui/lib/text-field';
 
-import * as searchActions from '../actions/eventActions';
-import * as globalActions from '../actions/globalActions';
+import * as searchActions from 'actions/eventActions';
+import * as globalActions from 'actions/globalActions';
 
 class SearchPanel extends Component {
   onSearchKeywordChange = (e) => this.props.persistSearchForm(e.target.value);

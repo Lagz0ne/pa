@@ -1,15 +1,6 @@
-import {Client} from 'elasticsearch';
-
 import Rx from 'rx';
-import config from '../config';
-
 import _ from 'lodash';
-
-/** Elasticsearch client **/
-const es = new Client({
-  host: config.es.host,
-  log: config.es.log
-});
+import es from './es';
 
 export function search(searchKeyword) {
   return Rx.Observable.fromPromise(es.search({
@@ -33,7 +24,6 @@ export function search(searchKeyword) {
 }
 
 export function pickup(id) {
-
   return Rx.Observable.fromPromise(es.update({
       index: 'pulseactive',
       type : 'events',
@@ -53,8 +43,41 @@ export function pickupAll(ids) {
       { doc: { pickedUp: true }}
     ]
   });
-  console.log(_.flattenDeep(updatedArray));
+
   return Rx.Observable.fromPromise(es.bulk({
       body: _.flattenDeep(updatedArray)
+    }));
+}
+
+export function checked(ids, orderId, actor) {
+  const updatedArray = _.map(ids, id => {
+    return [
+      { update: {'_index': 'pulseactive', '_type': 'events', _id: id} },
+      { doc: {
+        checked: true,
+        checkedBy: actor,
+        orderId: orderId
+      }}
+    ]
+  });
+
+  return Rx.Observable.fromPromise(es.bulk({
+      body: _.flattenDeep(updatedArray),
+      fields: ['id', 'tShirt', 'orderId']
+    }));
+}
+
+
+export function addOrder(ids, orderId) {
+  const updatedArray = _.map(ids, id => {
+    return [
+      { update: {'_index': 'pulseactive', '_type': 'events', _id: id} },
+      { doc: { orderId: orderId }}
+    ]
+  });
+
+  return Rx.Observable.fromPromise(es.bulk({
+      body: _.flattenDeep(updatedArray),
+      fields: ['id', 'tShirt']
     }));
 }

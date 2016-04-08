@@ -15,9 +15,18 @@ const ACTIONS = {
   PICKUP_ALL_REQUEST: 'PICKUP_ALL_REQUEST',
   PICKUP_ALL_REQUEST_SUCCESS: 'PICKUP_ALL_REQUEST_SUCCESS',
   PICKUP_ALL_REQUEST_FAILURE: 'PICKUP_ALL_REQUEST_FAILURE',
+
+  ADD_TO_QUEUE: 'ADD_TO_QUEUE',
+  CLEAR_SEARCH_RESULT: 'CLEAR_SEARCH_RESULT'
 }
 
 export const actions = ACTIONS;
+
+export function clearSearchResult() {
+  return {
+    type: ACTIONS.CLEAR_SEARCH_RESULT
+  }
+}
 
 /** Search functionalities **/
 export function searchRequest(searchKeyword) {

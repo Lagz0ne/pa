@@ -14,7 +14,8 @@ const defaultProps = {
   actionLabel: '',
   action: () => {},
   yesLabel: 'Ready',
-  noLabel: 'No'
+  noLabel: 'No',
+  actionBackgroundColor: ''
 }
 
 export default class Confirmable extends Component {
@@ -51,6 +52,7 @@ export default class Confirmable extends Component {
           disabledLabelColor={Colors.grey500}
           primary={true}
           onMouseDown={this._onConfirm}
+          backgroundColor={options.actionBackgroundColor}
           />
       </Col>
     </Row>
@@ -83,12 +85,9 @@ export default class Confirmable extends Component {
 
   render() {
     const options = Object.assign({}, defaultProps, this.props);
-    console.log(options);
     if (this.state.confirming) {
-      console.log(this.state);
       return this._renderYesNoButtons(options);
     } else {
-      console.log(this.state);
       return this._renderIntialButton(options);
     }
   }

@@ -12,6 +12,9 @@ export default function registrationReducer(state = {}, action) {
         searchResult: action.searchResult
       });
 
+    case actions.CLEAR_SEARCH_RESULT:
+      return Object.assign({}, state, {searchResult: []});
+
     case actions.PICKUP_REQUEST_SUCCESS:
       const id = action.id;
 

@@ -1,23 +1,42 @@
-import {
-  actions
-} from '../actions/eventActions';
+import { actions as eventActions } from '../actions/eventActions';
+import { actions as globalActions } from '../actions/globalActions';
+import { actions as orderActions } from '../actions/orderActions';
+
 import _ from 'lodash';
 
-export default function appStatusReducer(state = {isLoading: false}, action) {
+const DEFAULT_STATE = {
+  isLoading: false,
+  isPacking: false,
+  announcement: undefined
+}
+
+export default function appStatusReducer(state = DEFAULT_STATE, action) {
   switch (action.type) {
 
-    case actions.SEARCH_REQUEST:
-    case actions.PICKUP_REQUEST:
-    case actions.PICKUP_ALL_REQUEST:
+    case eventActions.SEARCH_REQUEST:
+    case eventActions.PICKUP_REQUEST:
+    case eventActions.PICKUP_ALL_REQUEST:
+    case orderActions.CREATE_ORDER_REQUEST:
       return Object.assign({}, state, {isLoading: true});
 
-    case actions.SEARCH_REQUEST_SUCCESS:
-    case actions.SEARCH_REQUEST_FAILURE:
-    case actions.PICKUP_REQUEST_SUCCESS:
-    case actions.PICKUP_REQUEST_FAILURE:
-    case actions.PICKUP_ALL_REQUEST_SUCCESS:
-    case actions.PICKUP_ALL_REQUEST_FAILURE:
+    case eventActions.SEARCH_REQUEST_SUCCESS:
+    case eventActions.SEARCH_REQUEST_FAILURE:
+    case eventActions.PICKUP_REQUEST_SUCCESS:
+    case eventActions.PICKUP_REQUEST_FAILURE:
+    case eventActions.PICKUP_ALL_REQUEST_SUCCESS:
+    case eventActions.PICKUP_ALL_REQUEST_FAILURE:
+    case globalActions.ClEAR_ANNOUNCEMENT:
+    case orderActions.CREATE_ORDER_REQUEST_FAILURE:
       return Object.assign({}, state, {isLoading: false});
+
+    case globalActions.ANNOUNCE:
+      return Object.assign({}, state, {isLoading: true, announcement: action.text});
+
+    case globalActions.ClEAR_ANNOUNCEMENT:
+      return Object.assign({}, state, {annoucement: undefined});
+
+    case globalActions.START_PACKING:
+      return Object.assign({}, state, {isPacking: true});
 
     default:
       return state;

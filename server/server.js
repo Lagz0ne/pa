@@ -6,6 +6,7 @@ import passport from './passport';
 import session from 'express-session';
 
 import registrations from './route/registrationRoute';
+import orders from './route/orderRoute';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const app = express();
@@ -46,6 +47,7 @@ app.use(bodyParser.json());
 
 /** Registrations routes **/
 app.use('/registration', registrations);
+app.use('/order', orders);
 
 /** authentication **/
 app.get('/authenticate', passport.authenticate('google', { scope: ['profile'] }));

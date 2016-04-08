@@ -1,27 +1,14 @@
 import React, {Component} from 'react';
-import {Grid, Row, Col} from 'react-flexbox-grid';
 
-import SearchPanel from './SearchPanel';
-import ResultPanel from './ResultPanel';
+import {Colors, AppCss, Grid, Row, Col} from 'components/commonComponents';
+
 import Header from './Header';
-import PickupPanel from './PickupPanel';
 import LoadStatus from './LoadStatus';
 
-export default() => (
-  <div>
-    <Header/>
-    <Grid style={{margin: '0px 2px'}}>
-      <Row>
-        <Col xs={12} sm={3} md={2}>
-          <SearchPanel />
-          <PickupPanel />
-        </Col>
-
-        <Col xs={12} sm={9} md={10}>
-          <br/>
-          <ResultPanel/>
-        </Col>
-      </Row>
+export default({children}) => (
+  <div style={{height: '100%', width: '100%', borderTop: `3px solid ${Colors.indigo300}`}}>
+    <Grid className={AppCss.fullHeight}>
+      {children}
     </Grid>
     <LoadStatus />
   </div>
