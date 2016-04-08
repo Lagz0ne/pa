@@ -8,4 +8,6 @@ ADD build /var/app/build
 ADD server /var/app/server
 ADD .babelrc /var/app
 
+VOLUME /var/data
+
 CMD npm run start:production
