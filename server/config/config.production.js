@@ -1,6 +1,8 @@
-{
+const ES_HOST = process.env.ES_PORT_9200_TCP ? process.env.ES_PORT_9200_TCP.replace('tcp', 'http') : 'http://es:9200';
+
+export default {
   "es": {
-    "host": "http://es:9200",
+    "host": ES_HOST,
     "log": "debug"
   },
   "import": {
@@ -10,4 +12,4 @@
   "loki": {
     "file": "/var/data/loki/orders.json"
   }
-}
+};

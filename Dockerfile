@@ -8,8 +8,8 @@ ADD build /var/app/build
 ADD server /var/app/server
 ADD .babelrc /var/app
 
-RUN mkdir -p /var/data
-RUN touch /var/data/orders.json
-VOLUME /var/data
+RUN mkdir -p /var/data/loki
+RUN touch /var/data/loki/orders.json
+VOLUME /var/data/loki
 
 CMD npm run start:production
