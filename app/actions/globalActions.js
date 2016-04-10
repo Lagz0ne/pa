@@ -1,5 +1,6 @@
 import request from 'superagent';
 import { browserHistory } from 'react-router';
+import { history } from '../store';
 
 const serverUrl = '';
 const requestUrl = `${serverUrl}`;
@@ -93,7 +94,7 @@ export function login(username, password) {
           dispatch(announce("Invalid username or password"));
         } else {
           dispatch(loginRequestSuccess(res.body));
-          browserHistory.push('/');
+          window.location.href = '/';
         }
       });
   };
@@ -114,7 +115,7 @@ export function logout() {
       .end((err, res) => {
 
         dispatch(logoutRequestSuccess());
-        browserHistory.push('/login');
+        window.location.href = '/login';
 
       });
   };

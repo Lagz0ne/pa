@@ -9,6 +9,6 @@ export default {
   },
   "loki": {
     "orders": "orders.json",
-    "users": "users.json"
+    "users": "server/config/users.json"
   }
 };
