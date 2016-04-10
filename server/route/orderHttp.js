@@ -16,26 +16,46 @@ export function createOrder(req, res) {
     );
 }
 
+export function reset(req, res) {
+  if (!req.user.isOrdinaryUser) {
+    res.json(403);
+    return;
+  }
+
+  orderService.resetOrder(req.body.type, req.body.orderId, req.user)
+    .subscribe(
+      result => res.json(result),
+      err => {
+        res.status(400);
+        res.json({error, err, ids});
+      }
+    );
+}
+
+export function getOpenningOrders(req, res) {
+  res.json(orderService.getOpenningOrders(req.user));
+}
+
 export function packedAndTakeNext(req, res) {
-  res.json(orderService.packedAndTakeNext(req.body.orderId));
+  res.json(orderService.packedAndTakeNext(req.body.orderId, req.user));
 }
 
 export function pickedAndTakeNext(req, res) {
-  res.json(orderService.pickedAndTakeNext(req.body.orderId));
+  res.json(orderService.pickedAndTakeNext(req.body.orderId, req.user));
 }
 
 export function packed(req, res) {
-  res.json(orderService.packed(req.body.orderId));
+  res.json(orderService.packed(req.body.orderId, req.user));
 }
 
 export function picked(req, res) {
-  res.json(orderService.picked(req.body.orderId));
+  res.json(orderService.picked(req.body.orderId, req.user));
 }
 
 export function getNextPackingOrder(req, res) {
-  res.json(orderService.getNextPackingOrder());
+  res.json(orderService.getNextPackingOrder(req.user));
 }
 
 export function getNextPickingOrder(req, res) {
-  res.json(orderService.getNextPickingOrder());
+  res.json(orderService.getNextPickingOrder(req.user));
 }

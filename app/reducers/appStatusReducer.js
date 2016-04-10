@@ -1,6 +1,7 @@
 import { actions as eventActions } from '../actions/eventActions';
 import { actions as globalActions } from '../actions/globalActions';
 import { actions as orderActions } from '../actions/orderActions';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 import _ from 'lodash';
 

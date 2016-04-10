@@ -19,7 +19,6 @@ const loadHandler = (result) => {
 }
 
 const userDB = new lokiDB(config.loki.users, {
-  autosave: true,
   autoload: true,
   autoloadCallback: loadHandler
 });

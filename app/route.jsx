@@ -7,6 +7,7 @@ import CheckScreen from './containers/check/CheckScreen';
 import PickScreen from './containers/pick/PickScreen';
 import PackScreen from './containers/pack/PackScreen';
 import LoginScreen from './containers/login/LoginScreen';
+import QueueScreen from './containers/queue/QueueScreen';
 
 import { store } from './store';
 
@@ -27,14 +28,15 @@ const autoredirect = (nextState, replace, done) => {
     replace('/login');
     done();
   } else {
-    if (user.isCheckIn && currentLocation != `/check/${user.checkInPos}`) {
-      replace(`/check/${user.checkInPos}`);
-    } else if (user.isPacking && currentLocation != `/pack`) {
-      replace(`/pack`);
-    } else if (user.isCheckout && currentLocation != `/checkout`) {
-      replace(`/checkout`);
+    if (!user.isOrdinaryUser) {
+      if (user.isCheckIn && currentLocation != `/check/${user.checkInPos}`) {
+        replace(`/check/${user.checkInPos}`);
+      } else if (user.isPacking && currentLocation != `/pack`) {
+        replace(`/pack`);
+      } else if (user.isCheckout && currentLocation != `/checkout`) {
+        replace(`/checkout`);
+      }
     }
-
     done();
   }
 }
@@ -42,10 +44,11 @@ const autoredirect = (nextState, replace, done) => {
 // export default(<Route path='/' component={Pulse} onEnter={secure}/>);
 export default(
   <Route path='/' component={Pulse} onEnter={autoredirect}>
-    <IndexRoute component={Homepage} />
-    <Route path='login' component={LoginScreen} />
-    <Route path='/check/:affinity' component={CheckScreen} />
-    <Route path='/pack' component={PackScreen} />
-    <Route path='/checkout' component={PickScreen} />
+    <IndexRoute components={{title: 'Home', child: Homepage }} />
+    <Route path='login' components={{title: 'Login', child: LoginScreen}} />
+    <Route path='/check/:affinity' components={{title: 'Check in', child: CheckScreen}} />
+    <Route path='/pack' components={{title: 'Packing', child: PackScreen }} />
+    <Route path='/checkout' components={{title: 'Check out', child: PickScreen }} />
+    <Route path='/queue' components={{title: 'Monitoring', child: QueueScreen}} />
   </Route>
 );

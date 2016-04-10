@@ -17,10 +17,10 @@ export default function orderReducer(state = DEFAULT_STATE, action) {
 
       if (_.isArray(toBeAdded)) {
         const merged = registrations.concat(toBeAdded);
-        return Object.assign({}, state, {registrations: merged});
+        return Object.assign({}, state, {registrations: _.uniqBy(merged, 'id')});
       } else {
         registrations.push(action.registration);
-        return Object.assign({}, state, {registrations: registrations});
+        return Object.assign({}, state, {registrations: _.uniqBy(registrations, 'id')});
       }
 
     case orderActions.REMOVE_FROM_ORDER:
@@ -54,6 +54,9 @@ export default function orderReducer(state = DEFAULT_STATE, action) {
 
     case orderActions.PICKED_AND_TAKE_NEXT_REQUEST_SUCCESS:
       return Object.assign({}, state, {pickOrder: _.isEmpty(action.order) ? undefined : action.order});
+
+    case orderActions.GET_ORDERS_REQUEST_SUCCESS:
+      return Object.assign({}, state, {adminOrders: action.orders});
 
     case LOCATION_CHANGE:
       const pathname = action.payload.pathname;

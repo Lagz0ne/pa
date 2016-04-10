@@ -47,9 +47,10 @@ export default class Homepage extends Component {
       <Row className={AppCss.fullHeight} middle="xs" center="xs">
         <Col xs={12}>
           <RaisedButton label="Check in"
+            fullWidth={true}
             linkButton={true}
             labelStyle={AppStyle.giantFont}
-            style={{height: '60px', width: '180px'}}
+            style={{height: '60px'}}
             onMouseDown={this.handleTouchTap}
             />
 
@@ -82,17 +83,27 @@ export default class Homepage extends Component {
 
 
           <RaisedButton label="Packing"
+            fullWidth={true}
             linkButton={true}
             labelStyle={AppStyle.giantFont}
-            style={{height: '60px', width: '180px'}}
+            style={{height: '60px'}}
             onMouseDown={navigate('/pack')}
             />
 
           <RaisedButton label="Check out"
+            fullWidth={true}
             linkButton={true}
             labelStyle={AppStyle.giantFont}
-            style={{height: '60px', width: '180px'}}
-            onMouseDown={navigate('/pick')}
+            style={{height: '60px'}}
+            onMouseDown={navigate('/checkout')}
+            />
+
+          <RaisedButton label="Queue"
+            fullWidth={true}
+            linkButton={true}
+            labelStyle={AppStyle.giantFont}
+            style={{height: '60px'}}
+            onMouseDown={navigate('/queue')}
             />
         </Col>
       </Row>

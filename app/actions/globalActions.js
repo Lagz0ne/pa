@@ -93,23 +93,10 @@ export function login(username, password) {
           dispatch(announce("Invalid username or password"));
         } else {
           dispatch(loginRequestSuccess(res.body));
-          dispatch(redirect(res.body));
+          browserHistory.push('/');
         }
       });
   };
-}
-
-function redirect(user) {
-  return dispatch => {
-    const {isCheckIn, checkInPos, isPacking, packingPos, isCheckout, checkoutPos} = user;
-    if (isCheckIn) {
-      browserHistory.push(`/check/${checkInPos}`);
-    } else if (isPacking) {
-      browserHistory.push(`/pack`);
-    } else if (isCheckout) {
-      browserHistory.push(`/checkout`);
-    }
-  }
 }
 
 function logoutRequestSuccess() {

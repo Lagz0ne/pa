@@ -33,7 +33,50 @@ const ACTIONS = {
 
   PICKED_AND_TAKE_NEXT_REQUEST: 'PICKED_AND_TAKE_NEXT_REQUEST',
   PICKED_AND_TAKE_NEXT_REQUEST_SUCCESS: 'PICKED_AND_TAKE_NEXT_REQUEST_SUCCESS',
-  PICKED_AND_TAKE_NEXT_REQUEST_FAILURE: 'PICKED_AND_TAKE_NEXT_REQUEST_FAILURE'
+  PICKED_AND_TAKE_NEXT_REQUEST_FAILURE: 'PICKED_AND_TAKE_NEXT_REQUEST_FAILURE',
+
+  GET_ORDERS_REQUEST: 'GET_ORDERS_REQUEST',
+  GET_ORDERS_REQUEST_SUCCESS: 'GET_ORDERS_REQUEST_SUCCESS',
+  GET_ORDERS_REQUEST_FAILURE: 'GET_ORDERS_REQUEST_FAILURE'
+}
+
+/** Get all orders **/
+function getOrdersRequest() {
+  return {
+    type: ACTIONS.GET_ORDERS_REQUEST
+  }
+}
+
+function getOrdersRequestSuccess(orders) {
+  return {
+    type: ACTIONS.GET_ORDERS_REQUEST_SUCCESS,
+    orders
+  }
+}
+
+function getOrdersRequestFailure(err) {
+  return {
+    type: ACTIONS.GET_ORDERS_FAILURE,
+    error: err
+  }
+}
+
+export function getOrders() {
+  return dispatch => {
+    dispatch(getOrdersRequest());
+    return request
+      .get(orderUrl)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (err) {
+          dispatch(getOrdersRequestFailure(err));
+          dispatch(globalActions.announce('Updating order list'));
+        } else {
+          dispatch(getOrdersRequestSuccess(res.body));
+          dispatch(globalActions.clearAnnouncement());
+        }
+      })
+  }
 }
 
 /** Add to order **/
@@ -259,10 +302,10 @@ function getNextPickOrderRequestSuccess(order) {
   }
 }
 
-function getNextPickOrderRequestFailure() {
+function getNextPickOrderRequestFailure(err) {
   return {
     type: ACTIONS.NEXT_PICK_REQUEST_FAILURE,
-    order
+    err
   }
 }
 

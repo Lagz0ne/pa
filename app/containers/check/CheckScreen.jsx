@@ -24,8 +24,8 @@ class SearchScreen extends Component {
   )
 
   renderPreviousOrder = () => (
-    <Row middle="xs" center="xs" className={AppCss.fullHeight}>
-      <Col xs={8}>
+    <Row>
+      <Col xs={12}>
         <PreviousOrderPanel />
       </Col>
     </Row>

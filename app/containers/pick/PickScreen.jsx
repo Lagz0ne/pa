@@ -4,7 +4,8 @@ import {
   AppCss, AppStyle, Colors,
   Divider,
   SizeLabel,
-  OrderPanel
+  OrderPanel,
+  ConfirmableButton
 } from 'components/commonComponents';
 
 import {connect} from 'react-redux';
@@ -43,26 +44,22 @@ class PickScreen extends Component {
   render() {
     if (this.props.pickOrder) {
       return (
-        <Row middle="xs" center="xs" className={AppCss.fullHeight}>
-          <Col xs={8}>
+        <Row center="xs">
+          <Col xs={10}>
             <OrderPanel order={this.props.pickOrder} />
             <br />
 
-            <RaisedButton
-              linkButton={true}
-              primary={true}
-              fullWidth={true}
-              label="Picked and take next order"
-              onMouseDown={this.onPickedAndTakeNextButtonClicked}
+            <ConfirmableButton
+              disableAfterAction={false}
+              actionLabel="Picked and take next order"
+              action={this.onPickedAndTakeNextButtonClicked}
             />
             <br/><br/>
-            <RaisedButton
-              linkButton={true}
-              primary={true}
-              fullWidth={true}
-              backgroundColor={Colors.indigo500}
-              label="Picked"
-              onMouseDown={this.onPickedButtonClicked}
+            <ConfirmableButton
+              disableAfterAction={false}
+              actionBackgroundColor={Colors.indigo500}
+              actionLabel="Picked"
+              action={this.onPickedButtonClicked}
             />
           </Col>
         </Row>

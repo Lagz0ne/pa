@@ -18,7 +18,7 @@ class PreviousOrderPanel extends Component {
         <Col xs={12}>
           <OrderPanel order={this.props.previousOrder} />
           <ConfirmableButton
-            actionLabel="Start next order"
+            actionLabel="Next check in"
             action={this.onNewOrderClicked}
           />
         </Col>

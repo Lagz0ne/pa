@@ -4,7 +4,8 @@ import {
   AppCss, AppStyle, Colors,
   Divider,
   SizeLabel,
-  OrderPanel
+  OrderPanel,
+  ConfirmableButton
 } from 'components/commonComponents';
 
 import {connect} from 'react-redux';
@@ -43,26 +44,22 @@ class PackScreen extends Component {
   render() {
     if (this.props.packOrder) {
       return (
-        <Row middle="xs" center="xs" className={AppCss.fullHeight}>
-          <Col xs={8}>
+        <Row center="xs">
+          <Col xs={10}>
             <OrderPanel order={this.props.packOrder} />
             <br />
 
-            <RaisedButton
-              linkButton={true}
-              primary={true}
-              fullWidth={true}
-              label="Packed and take next order"
-              onMouseDown={this.onPackedAndTakeNextButtonClicked}
+            <ConfirmableButton
+              disableAfterAction={false}
+              actionLabel="Packed and take next order"
+              action={this.onPackedAndTakeNextButtonClicked}
             />
             <br/><br/>
-            <RaisedButton
-              linkButton={true}
-              primary={true}
-              fullWidth={true}
-              backgroundColor={Colors.indigo500}
-              label="Packed"
-              onMouseDown={this.onPackedButtonClicked}
+            <ConfirmableButton
+              disableAfterAction={false}
+              actionBackgroundColor={Colors.indigo500}
+              actionLabel="Packed"
+              action={this.onPackedButtonClicked}
             />
           </Col>
         </Row>

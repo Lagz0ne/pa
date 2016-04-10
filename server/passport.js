@@ -21,7 +21,8 @@ passport.use(new LocalStrategy(
         isPacking: user.isPacking,
         packingPos: user.packingPos,
         isCheckout: user.isCheckout,
-        checkoutPos: user.checkoutPos
+        checkoutPos: user.checkoutPos,
+        isOrdinaryUser: user.isOrdinaryUser
       });
     } else {
       return done(null, false, { message: 'Invalid username or password' });

@@ -1,11 +1,15 @@
 html,
 body {
   height: 100%;
-  margin: 0px;
+  margin: 0px 4px;
   padding: 0px;
   font-family: 'Open Sans';
 }
 
 .fullHeight {
   height: 100%;
+}
+
+.halfHeight {
+  height: 50%;
 }

@@ -91,6 +91,7 @@ class ResultPanel extends Component {
 
   onAddAllToOrderClicked = () => {
     const filteredArray = _.filter(this.props.searchResult, result => !!!result.orderId);
+    console.log(this.props.searchResult);
     this.props.addToOrder(filteredArray);
 
   }
@@ -111,13 +112,52 @@ class ResultPanel extends Component {
     return false;
   }
 
-  _renderActionButton = (result, groupedById) => {
-    if (!!result.orderId) { // Already in another order
+  _renderStatus = (orderId, isDone, doneLabel, isDoing, doingLabel, byWhom, when) => {
+    if (isDone) {
+      const formattedDate = fecha.format(when, 'hh:mm');
       return (
-        <ConfirmableButton
+        <RaisedButton
           disabled={true}
-          disabledLabel={`Added to order ${result.orderId}`}
+          fullWidth={true}
+          disabledBackgroundColor={Colors.grey100}
+          disabledLabelColor={Colors.grey900}
+          label={`${orderId} - ${byWhom} - ${formattedDate}`}
         />
+      );
+    } else if (isDoing) {
+      return (
+        <RaisedButton
+          disabled={true}
+          fullWidth={true}
+          disabledBackgroundColor={Colors.grey100}
+          disabledLabelColor={Colors.grey900}
+          label={`${orderId} is ${doingLabel} by ${byWhom}`}
+        />
+      );
+    }
+    return false;
+  }
+
+  _renderActionButton = (result, groupedById) => {
+    if (result.order) { // Already in another order
+      return (
+        <span>
+          {this._renderStatus(result.orderId,
+              result.order.checked, 'checked in',
+              false, '',
+              result.order.checkedBy, result.order.checkedAt
+            )}
+          {this._renderStatus(result.orderId,
+              result.order.packed, 'packed',
+              result.order.isPackingBy, 'packing',
+              result.order.isPackingBy, result.order.checkedAt
+          )}
+          {this._renderStatus(result.orderId,
+              result.order.picked, 'checked out',
+              result.order.isPickingBy, 'checking out',
+              result.order.isPickingBy, result.order.checkedAt
+          )}
+        </span>
       )
     } else if (!!groupedById[result.id]) { // Is added
       return (

@@ -1,6 +1,7 @@
 import Rx from 'rx';
 import _ from 'lodash';
 import es from './es';
+import { orderCollection } from './orderService';
 
 export function search(searchKeyword) {
   return Rx.Observable.fromPromise(es.search({
@@ -20,32 +21,42 @@ export function search(searchKeyword) {
         }
       }
     }))
-    .map(original => original.hits.hits.map(result => result._source));
-}
-
-export function pickup(id) {
-  return Rx.Observable.fromPromise(es.update({
-      index: 'pulseactive',
-      type : 'events',
-      id   : id,
-      body : {
-        doc: {
-          pickedUp: true
+    .map(original => original.hits.hits.map(result => result._source))
+    .doOnNext(hits => {
+      _.forEach(hits, hit => {
+        if (hit.orderId) {
+          hit.order = orderCollection().findOne({orderId: hit.orderId});
         }
-      }
-    }));
+      })
+    })
+    .doOnError(console.log);
 }
 
-export function pickupAll(ids) {
+export function update(ids, content) {
   const updatedArray = _.map(ids, id => {
     return [
       { update: {'_index': 'pulseactive', '_type': 'events', _id: id} },
-      { doc: { pickedUp: true }}
+      { doc: content }
     ]
   });
 
   return Rx.Observable.fromPromise(es.bulk({
-      body: _.flattenDeep(updatedArray)
+      body: _.flattenDeep(updatedArray),
+      fields: ['id', 'tShirt', 'orderId']
+    }));
+}
+
+export function removeField(ids, field) {
+  const updatedArray = _.map(ids, id => {
+    return [
+      { update: {'_index': 'pulseactive', '_type': 'events', _id: id} },
+      { script: `ctx._source.remove("${field}")` }
+    ]
+  });
+
+  return Rx.Observable.fromPromise(es.bulk({
+      body: _.flattenDeep(updatedArray),
+      fields: ['id', 'tShirt', 'orderId']
     }));
 }
 
@@ -64,20 +75,5 @@ export function checked(ids, orderId, actor) {
   return Rx.Observable.fromPromise(es.bulk({
       body: _.flattenDeep(updatedArray),
       fields: ['id', 'tShirt', 'orderId']
-    }));
-}
-
-
-export function addOrder(ids, orderId) {
-  const updatedArray = _.map(ids, id => {
-    return [
-      { update: {'_index': 'pulseactive', '_type': 'events', _id: id} },
-      { doc: { orderId: orderId }}
-    ]
-  });
-
-  return Rx.Observable.fromPromise(es.bulk({
-      body: _.flattenDeep(updatedArray),
-      fields: ['id', 'tShirt']
     }));
 }

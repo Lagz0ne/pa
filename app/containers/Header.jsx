@@ -18,9 +18,15 @@ class Header extends Component {
   }
 
   renderLoggedIn = () => {
+    console.log(this.props.title);
     return (
       <Row end="sm" center="xs">
         <Col xs={12} sm={6}>
+          <RaisedButton disabled={true}
+            disabledBackgroundColor={Colors.white}
+            disabledLabelColor={Colors.grey700}
+            labelStyle={{fontWeight: 'bold'}}
+            label={this.props.title.type}/>
           <RaisedButton disabled={true}
             disabledBackgroundColor={Colors.white}
             disabledLabelColor={Colors.grey700}

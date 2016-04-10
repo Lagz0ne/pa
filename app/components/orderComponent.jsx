@@ -17,7 +17,7 @@ export default ({ order, orderLabelStyle }) => {
   }, orderLabelStyle);
 
   return (
-    <Row>
+    <Row middle="xs" center="xs">
       <Col xs={12}>
         <span>ORDER</span>
         <RaisedButton
@@ -25,7 +25,7 @@ export default ({ order, orderLabelStyle }) => {
           disabledBackgroundColor={Colors.white}
           disabledLabelColor={Colors.grey800}
           fullWidth={true}
-          style={{paddingTop: '10px', height: '60px', marginBottom: '30px'}}
+          style={{paddingTop: '10px', height: '70px', marginBottom: '30px'}}
           labelStyle={_orderLabelStyle}
           label={order.orderId}
           />
@@ -37,7 +37,7 @@ export default ({ order, orderLabelStyle }) => {
         <SizeLabel label="XL" amount={order['XL']} labelStyle={{fontSize: '20px'}}/>
         <SizeLabel label="XXL" amount={order['XXL']} labelStyle={{fontSize: '20px'}}/>
         <Divider/>
-        <SizeLabel label="TOTAL" amount={sum} labelStyle={{fontWeight: 'bold'}}/>
+        <SizeLabel label="TOTAL" amount={sum} labelStyle={{fontSize: '20px', fontWeight: 'bold'}}/>
       </Col>
     </Row>
   );
