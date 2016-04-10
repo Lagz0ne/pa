@@ -46,7 +46,7 @@ export default class Homepage extends Component {
     return(
       <Row className={AppCss.fullHeight} middle="xs" center="xs">
         <Col xs={12}>
-          <RaisedButton label="Check"
+          <RaisedButton label="Check in"
             linkButton={true}
             labelStyle={AppStyle.giantFont}
             style={{height: '60px', width: '180px'}}
@@ -81,14 +81,14 @@ export default class Homepage extends Component {
           </Popover>
 
 
-          <RaisedButton label="Pack"
+          <RaisedButton label="Packing"
             linkButton={true}
             labelStyle={AppStyle.giantFont}
             style={{height: '60px', width: '180px'}}
             onMouseDown={navigate('/pack')}
             />
 
-          <RaisedButton label="Pick"
+          <RaisedButton label="Check out"
             linkButton={true}
             labelStyle={AppStyle.giantFont}
             style={{height: '60px', width: '180px'}}

@@ -32,13 +32,11 @@ export default function registrationReducer(state = {}, action) {
     case actions.PICKUP_ALL_REQUEST_SUCCESS:
       const ids = action.ids;
       const updatePickedUp = _.map(currentResult, result => {
-        console.log(result);
         if (_.includes(ids, result.id)) {
           result.pickedUp = true;
         }
         return result;
       });
-      console.log(updatePickedUp);
       return Object.assign({}, state, {searchResult: updatePickedUp});
 
     default:

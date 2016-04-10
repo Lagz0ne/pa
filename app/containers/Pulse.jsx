@@ -6,7 +6,8 @@ import Header from './Header';
 import LoadStatus from './LoadStatus';
 
 export default({children}) => (
-  <div style={{height: '100%', width: '100%', borderTop: `3px solid ${Colors.indigo300}`}}>
+  <div className={AppCss.fullHeight} style={{borderTop: `2px solid ${Colors.indigo300}`}}>
+    <Header />
     <Grid className={AppCss.fullHeight}>
       {children}
     </Grid>

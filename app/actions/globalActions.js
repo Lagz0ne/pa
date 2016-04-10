@@ -1,9 +1,21 @@
+import request from 'superagent';
+import { browserHistory } from 'react-router';
+
+const serverUrl = '';
+const requestUrl = `${serverUrl}`;
+
 const ACTIONS = {
   GLOBAL_FORM_STATE_INPUT: 'GLOBAL_FORM_STATE_INPUT',
   START_PACKING: 'GLOBAL_START_PACKING',
   PACKING: 'GLOBAL_PACKING',
   ANNOUNCE: 'ANNOUNCE',
-  ClEAR_ANNOUNCEMENT: 'ClEAR_ANNOUNCEMENT'
+  ClEAR_ANNOUNCEMENT: 'ClEAR_ANNOUNCEMENT',
+
+  LOGIN_REQUEST: 'LOGIN_REQUEST',
+  LOGIN_REQUEST_SUCCESS: 'LOGIN_REQUSET_SUCCESS',
+  LOGIN_REQUEST_FAILURE: 'LOGIN_REQUEST_FAILURE',
+
+  LOGOUT_REQUEST_SUCCESS: 'LOGOUT_REQUEST_SUCCESS'
 }
 
 export const actions = ACTIONS;
@@ -45,4 +57,78 @@ export function packing(id) {
     type: ACTIONS.PACKING,
     id
   }
+}
+
+/** Login funcitonality **/
+function loginRequest() {
+  return {
+    type: ACTIONS.LOGIN_REQUEST
+  }
+}
+
+function loginRequestSuccess(user) {
+  return {
+    type: ACTIONS.LOGIN_REQUEST_SUCCESS,
+    user
+  }
+}
+
+function loginRequestFailure(error) {
+  return {
+    type: ACTIONS.LOGIN_REQUEST_FAILURE,
+    error
+  }
+}
+
+export function login(username, password) {
+  return dispatch => {
+    dispatch(loginRequest());
+    return request
+      .post(`${requestUrl}/authenticate`)
+      .send({username, password})
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (err) {
+          dispatch(loginRequestFailure(err));
+          dispatch(announce("Invalid username or password"));
+        } else {
+          dispatch(loginRequestSuccess(res.body));
+          dispatch(redirect(res.body));
+        }
+      });
+  };
+}
+
+function redirect(user) {
+  return dispatch => {
+    const {isCheckIn, checkInPos, isPacking, packingPos, isCheckout, checkoutPos} = user;
+    if (isCheckIn) {
+      browserHistory.push(`/check/${checkInPos}`);
+    } else if (isPacking) {
+      browserHistory.push(`/pack`);
+    } else if (isCheckout) {
+      browserHistory.push(`/checkout`);
+    }
+  }
+}
+
+function logoutRequestSuccess() {
+  return {
+    type: ACTIONS.LOGOUT_REQUEST_SUCCESS
+  }
+}
+
+
+export function logout() {
+  return dispatch => {
+    return request
+      .get(`${requestUrl}/logout`)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+
+        dispatch(logoutRequestSuccess());
+        browserHistory.push('/login');
+
+      });
+  };
 }

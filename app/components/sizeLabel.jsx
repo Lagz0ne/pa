@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {Row, Col, RaisedButton, Colors} from './commonComponents';
 
 export default ({ label, amount, labelStyle }) => {
-  
+
   return (
     <Row>
-      <Col xs={6}>
+      <Col xs={4}>
         <RaisedButton
           fullWidth={true}
           disabled={true}
@@ -17,7 +17,7 @@ export default ({ label, amount, labelStyle }) => {
           disabledLabelColor={amount === 0 ? Colors.grey400 : Colors.grey800}
         />
       </Col>
-      <Col xs={3}>
+      <Col xs={4}>
         <RaisedButton
           fullWidth={true}
           disabled={true}
@@ -29,7 +29,7 @@ export default ({ label, amount, labelStyle }) => {
           disabledLabelColor={amount === 0 ? Colors.grey400 : Colors.grey800}
         />
       </Col>
-      <Col xs={3}>
+      <Col xs={4}>
         <RaisedButton
           fullWidth={true}
           disabled={true}

@@ -50,25 +50,31 @@ app.use('/registration', registrations);
 app.use('/order', orders);
 
 /** authentication **/
-app.get('/authenticate', passport.authenticate('google', { scope: ['profile'] }));
-app.get('/logged',
-  passport.authenticate('google', { failureRedirect: '/' }),
-  (req, res) => {
-    res.redirect('/');
-  });
+// app.get('/authenticate', passport.authenticate('google', { scope: ['profile'] }));
+// app.get('/logged',
+//   passport.authenticate('google', { failureRedirect: '/' }),
+//   (req, res) => {
+//     res.redirect('/');
+//   });
 
+app.post('/authenticate', passport.authenticate('local'), (req, res) => {
+  res.json(req.user);
+});
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.end();
+})
 
 /** Default html hosting **/
 app.use(express.static(__dirname + '/../build'));
 app.get('*', (req, res) => {
   if (req.user) {
+    req.user.isLoggedIn = true;
     res.render('index', {
       app: JSON.stringify({
         app: {
-          user: {
-            isLoggedIn: true,
-            displayName: req.user.displayName
-          }
+          user: req.user
         }
       })
     });

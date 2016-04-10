@@ -13,7 +13,6 @@ class LoadStatus extends Component {
   }
 
   render() {
-    console.log(this.props.loadingText);
     return (
       <Snackbar
         style={{fontFamily: 'Open Sans'}}

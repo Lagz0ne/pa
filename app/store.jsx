@@ -11,9 +11,11 @@ const rootReducer = combineReducers({
   routing: routerReducer
 });
 
-const enhancer = compose(applyMiddleware(thunkMiddleware));
+const enhancer = compose(
+  applyMiddleware(thunkMiddleware),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+);
 
-const initialState = (window.__INITIAL_DATA__) ? window.__INITIAL_DATA__ : {};
-
+const initialState = window.__INITIAL_DATA__;
 export const store = createStore(rootReducer, initialState, enhancer);
 export const history = syncHistoryWithStore(browserHistory, store);

@@ -39,7 +39,7 @@ class OrderPanel extends Component {
               fullWidth={true}
               style={{paddingTop: '10px'}}
               labelStyle={{fontWeight: 'bold'}}
-              label={this.props.nextOrderId ? `Order ${this.props.nextOrderId}` : "Order"}
+              label="Order"
               />
           </Col>
         </Row>

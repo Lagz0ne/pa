@@ -10,6 +10,7 @@ export default {
     "log": "trace"
   },
   "loki": {
-    "file": "/var/data/loki/orders.json"
+    "orders": "/var/data/loki/orders.json",
+    "users": "/var/data/loki/users.json"
   }
 };

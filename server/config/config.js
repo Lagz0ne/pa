@@ -8,6 +8,7 @@ export default {
     "log": "trace"
   },
   "loki": {
-    "file": "orders.json"
+    "orders": "orders.json",
+    "users": "users.json"
   }
 };

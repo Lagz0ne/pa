@@ -20,7 +20,7 @@ const loadHandler = (result) => {
   }
 }
 
-const orderDB = new lokiDB(config.loki.file, {
+const orderDB = new lokiDB(config.loki.orders, {
   autosave: true,
   autoload: true,
   autoloadCallback: loadHandler

@@ -28,7 +28,6 @@ export default function orderReducer(state = DEFAULT_STATE, action) {
       const currentRegistrations = state.registrations;
 
       const removed = _.remove(currentRegistrations, item => item.id !== registration.id);
-      console.log(removed);
       return Object.assign({}, state, {registrations: removed});
 
     case orderActions.CLEAR_PREVIOUS_ORDER:
