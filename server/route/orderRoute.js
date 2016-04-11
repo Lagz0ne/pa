@@ -8,6 +8,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get('/', ensureAuthenticated, orderHttp.getOpenningOrders);
+router.get('/checkingOut', orderHttp.getCheckingOutOrders);
 router.post('/', ensureAuthenticated, orderHttp.createOrder);
 router.get('/next/pack', ensureAuthenticated, orderHttp.getNextPackingOrder);
 router.post('/packed', ensureAuthenticated, orderHttp.packed);

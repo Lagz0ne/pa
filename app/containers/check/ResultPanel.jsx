@@ -91,7 +91,7 @@ class ResultPanel extends Component {
 
   onAddAllToOrderClicked = () => {
     const filteredArray = _.filter(this.props.searchResult, result => !!!result.orderId);
-    console.log(this.props.searchResult);
+    console.log(filteredArray);
     this.props.addToOrder(filteredArray);
 
   }
@@ -114,7 +114,7 @@ class ResultPanel extends Component {
 
   _renderStatus = (orderId, isDone, doneLabel, isDoing, doingLabel, byWhom, when) => {
     if (isDone) {
-      const formattedDate = fecha.format(when, 'hh:mm');
+      const formattedDate = fecha.format(when, 'dd/MM/YYYY hh:mm');
       return (
         <RaisedButton
           disabled={true}

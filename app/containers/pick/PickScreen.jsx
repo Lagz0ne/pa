@@ -34,7 +34,7 @@ class PickScreen extends Component {
         <RaisedButton
         linkButton={true}
         primary={true}
-        label="Start picking"
+        label="Start checking out"
         onMouseDown={this.onStartButtonClicked} />
       </Col>
     </Row>
@@ -48,14 +48,18 @@ class PickScreen extends Component {
           <Col xs={10}>
             <OrderPanel order={this.props.pickOrder} />
             <br />
-
+          </Col>
+          <Col xs={6}>
             <ConfirmableButton
+              buttonStyle={{height: '80px'}}
               disableAfterAction={false}
               actionLabel="Picked and take next order"
               action={this.onPickedAndTakeNextButtonClicked}
             />
-            <br/><br/>
+          </Col>
+          <Col xs={6}>
             <ConfirmableButton
+              buttonStyle={{height: '80px'}}
               disableAfterAction={false}
               actionBackgroundColor={Colors.indigo500}
               actionLabel="Picked"

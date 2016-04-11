@@ -35,9 +35,56 @@ const ACTIONS = {
   PICKED_AND_TAKE_NEXT_REQUEST_SUCCESS: 'PICKED_AND_TAKE_NEXT_REQUEST_SUCCESS',
   PICKED_AND_TAKE_NEXT_REQUEST_FAILURE: 'PICKED_AND_TAKE_NEXT_REQUEST_FAILURE',
 
+  PICKED_REQUEST: 'PICKED_REQUEST',
+  PICKED_REQUEST_SUCCESS: 'PICKED_REQUEST_SUCCESS',
+  PICKED_REQUEST_FAILURE: 'PICKED_REQUEST_FAILURE',
+
   GET_ORDERS_REQUEST: 'GET_ORDERS_REQUEST',
   GET_ORDERS_REQUEST_SUCCESS: 'GET_ORDERS_REQUEST_SUCCESS',
-  GET_ORDERS_REQUEST_FAILURE: 'GET_ORDERS_REQUEST_FAILURE'
+  GET_ORDERS_REQUEST_FAILURE: 'GET_ORDERS_REQUEST_FAILURE',
+
+  GET_CHECKINGOUT_ORDERS_REQUEST: 'GET_CHECKINGOUT_ORDERS_REQUEST',
+  GET_CHECKINGOUT_ORDERS_REQUEST_SUCCESS: 'GET_CHECKINGOUT_ORDERS_REQUEST_SUCCESS',
+  GET_CHECKINGOUT_ORDERS_REQUEST_FAILURE: 'GET_CHECKINGOUT_ORDERS_REQUEST_FAILURE',
+}
+
+/** Get checking out orders **/
+function getCheckingOutOrdersRequest() {
+  return {
+    type: ACTIONS.GET_CHECKINGOUT_ORDERS_REQUEST
+  }
+}
+
+function getCheckingOutOrdersRequestSuccess(orders) {
+  return {
+    type: ACTIONS.GET_CHECKINGOUT_ORDERS_REQUEST_SUCCESS,
+    orders
+  }
+}
+
+function getCheckingOutOrdersRequestFailure(err) {
+  return {
+    type: ACTIONS.GET_CHECKINGOUT_ORDERS_FAILURE,
+    error: err
+  }
+}
+
+export function getCheckingOutOrders() {
+  return dispatch => {
+    dispatch(getCheckingOutOrdersRequest());
+    return request
+      .get(`${orderUrl}/checkingOut`)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (err) {
+          dispatch(getCheckingOutOrdersRequestFailure(err));
+          dispatch(globalActions.announce('Updating order list'));
+        } else {
+          dispatch(getCheckingOutOrdersRequestSuccess(res.body));
+          dispatch(globalActions.clearAnnouncement());
+        }
+      })
+  }
 }
 
 /** Get all orders **/
@@ -241,7 +288,7 @@ export function picked(orderId) {
           dispatch(pickedRequestFailure(err));
         } else {
           dispatch(pickedRequestSuccess(res.body));
-          dispatch(globalActions.announce(`Order ${orderId} is picked`));
+          dispatch(globalActions.announce(`Order [${orderId}] is checked out`));
         }
       });
   };

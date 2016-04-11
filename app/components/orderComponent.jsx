@@ -13,8 +13,10 @@ export default ({ order, orderLabelStyle }) => {
   const _orderLabelStyle = Object.assign({}, {
     fontWeight: 'bold',
     fontSize: '60px',
-    color: Colors.green500
+    color: Colors.green800
   }, orderLabelStyle);
+
+  const labelStyle = {fontSize: '24px', fontWeight: 'bold'};
 
   return (
     <Row middle="xs" center="xs">
@@ -30,14 +32,14 @@ export default ({ order, orderLabelStyle }) => {
           label={order.orderId}
           />
       </Col>
-      <Col xs={12}>
-        <SizeLabel label="S" amount={order['S']} labelStyle={{fontSize: '20px'}}/>
-        <SizeLabel label="M" amount={order['M']} labelStyle={{fontSize: '20px'}}/>
-        <SizeLabel label="L" amount={order['L']} labelStyle={{fontSize: '20px'}}/>
-        <SizeLabel label="XL" amount={order['XL']} labelStyle={{fontSize: '20px'}}/>
-        <SizeLabel label="XXL" amount={order['XXL']} labelStyle={{fontSize: '20px'}}/>
+      <Col xs={10}>
+        <SizeLabel label="S" amount={order['S']} labelStyle={labelStyle} backgroundColor={Colors.grey200}/>
+        <SizeLabel label="M" amount={order['M']} labelStyle={labelStyle}/>
+        <SizeLabel label="L" amount={order['L']} labelStyle={labelStyle} backgroundColor={Colors.grey200}/>
+        <SizeLabel label="XL" amount={order['XL']} labelStyle={labelStyle}/>
+        <SizeLabel label="XXL" amount={order['XXL']} labelStyle={labelStyle} backgroundColor={Colors.grey200}/>
         <Divider/>
-        <SizeLabel label="TOTAL" amount={sum} labelStyle={{fontSize: '20px', fontWeight: 'bold'}}/>
+        <SizeLabel label="TOTAL" amount={sum} labelStyle={labelStyle}/>
       </Col>
     </Row>
   );

@@ -48,13 +48,15 @@ class PackScreen extends Component {
           <Col xs={10}>
             <OrderPanel order={this.props.packOrder} />
             <br />
-
+          </Col>
+          <Col xs={6}>
             <ConfirmableButton
               disableAfterAction={false}
               actionLabel="Packed and take next order"
               action={this.onPackedAndTakeNextButtonClicked}
             />
-            <br/><br/>
+          </Col>
+          <Col xs={6}>
             <ConfirmableButton
               disableAfterAction={false}
               actionBackgroundColor={Colors.indigo500}

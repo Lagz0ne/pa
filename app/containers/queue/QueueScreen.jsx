@@ -26,6 +26,20 @@ class QueueScreen extends Component {
     }
   }
 
+  _onPackButtonClicked = (orderId) => {
+    return (e) => {
+      e.preventDefault();
+      this.props.packed(orderId);
+    }
+  }
+
+  _onPickButtonClicked = (orderId) => {
+    return (e) => {
+      e.preventDefault();
+      this.props.picked(orderId);
+    }
+  }
+
   componentWillMount = () => {
     timeoutFunction = setInterval(() => {
       this.props.getOrders();
@@ -118,7 +132,26 @@ class QueueScreen extends Component {
                     </div>
                   </Col>
                 </Row>
-                <Row className={AppCss.halfHeight} bottom="md" top="xs">
+                <br/>
+                <Row middle="md" top="xs">
+                  <Col md={4} xs={12}>
+                    <ConfirmableButton
+                      disabled={!(order.checked && order.packed && !order.picked)}
+                      action={this._onPickButtonClicked(order.orderId)}
+                      disabledLabel="Checked out"
+                      actionLabel="Check out"/>
+                  </Col>
+                  <Col md={4} xs={12}>
+                    <ConfirmableButton
+                      disabled={!(order.checked && !order.packed && !order.picked)}
+                      action={this._onPackButtonClicked(order.orderId)}
+                      disabledLabel="Packed"
+                      actionBackgroundColor={Colors.indigo500}
+                      actionLabel="Pack"/>
+                  </Col>
+                </Row>
+                <br/>
+                <Row bottom="md" top="xs">
                   <Col md={4} xs={12}>
                     <ConfirmableButton
                       action={this._onResetButtonClicked('checkout', order.orderId)}

@@ -16,7 +16,7 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    extensions: ['', '.jsx', '.scss', '.js', '.json'], // along the way, subsequent file(s) to be consumed by webpack
+    extensions: ['', '.jsx', '.scss', '.js', '.json', '.png'], // along the way, subsequent file(s) to be consumed by webpack
     modulesDirectories: [
       'node_modules',
       path.resolve(__dirname, './node_modules')
@@ -34,7 +34,7 @@ module.exports = {
     }, {
       test: /(\.scss|\.css)$/,
       loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap')
-    }]
+    }, { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' } ]
   },
   postcss: [autoprefixer],
   plugins: [

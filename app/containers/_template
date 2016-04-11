@@ -3,6 +3,9 @@ import React, {Component} from 'react';
 import {RaisedButton, Colors, AppCss, AppStyle, Grid, Row, Col} from 'components/commonComponents';
 import { browserHistory } from 'react-router';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 class <CLASS_NAME> extends Component {
   constructor(props) {
     super(props);

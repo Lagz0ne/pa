@@ -36,6 +36,10 @@ export function getOpenningOrders(req, res) {
   res.json(orderService.getOpenningOrders(req.user));
 }
 
+export function getCheckingOutOrders(req, res) {
+  res.json(orderService.getCheckingOutOrders());
+}
+
 export function packedAndTakeNext(req, res) {
   res.json(orderService.packedAndTakeNext(req.body.orderId, req.user));
 }

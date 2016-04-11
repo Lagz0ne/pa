@@ -15,7 +15,8 @@ const defaultProps = {
   action: () => {},
   yesLabel: 'Ready',
   noLabel: 'No',
-  actionBackgroundColor: ''
+  actionBackgroundColor: '',
+  buttonStyle: {}
 }
 
 export default class Confirmable extends Component {
@@ -45,6 +46,7 @@ export default class Confirmable extends Component {
     <Row>
       <Col xs={12}>
         <RaisedButton
+          style={options.buttonStyle}
           disabled={options.disabled || (options.disableAfterAction && this.state.confirmed)}
           fullWidth={true}
           label={options.disabled ? options.disabledLabel : options.actionLabel}
@@ -62,6 +64,7 @@ export default class Confirmable extends Component {
     <Row>
       <Col xs={6}>
         <RaisedButton
+          style={options.buttonStyle}
           backgroundColor={Colors.lightGreen600}
           labelColor={Colors.white}
           fullWidth={true}
@@ -72,6 +75,7 @@ export default class Confirmable extends Component {
       </Col>
       <Col xs={6}>
         <RaisedButton
+          style={options.buttonStyle}
           backgroundColor={Colors.red500}
           labelColor={Colors.white}
           fullWidth={true}

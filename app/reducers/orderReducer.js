@@ -58,6 +58,9 @@ export default function orderReducer(state = DEFAULT_STATE, action) {
     case orderActions.GET_ORDERS_REQUEST_SUCCESS:
       return Object.assign({}, state, {adminOrders: action.orders});
 
+    case orderActions.GET_CHECKINGOUT_ORDERS_REQUEST_SUCCESS:
+      return Object.assign({}, state, {tvOrders: action.orders});
+
     case LOCATION_CHANGE:
       const pathname = action.payload.pathname;
       const splittedPath = pathname.split('/');

@@ -48,11 +48,27 @@ const nextToken = (affinity) => {
 }
 
 export function getOpenningOrders(user) {
-  return orders().chain()
-    .find({picked: false})
+  return orders()
+    .chain()
+    .find()
+    // .find({picked: false})
     .simplesort('checkedAt')
     .data();
 }
+
+export function getCheckingOutOrders() {
+  return orders()
+    .chain()
+    .find({
+      '$and': [
+        { isPickingBy: {'$ne': ''} },
+        { picked: false }
+      ]
+    })
+    .simplesort('packedAt')
+    .data();
+}
+
 
 export function packed(orderId, user) {
   const order = orders().find({orderId})[0];
@@ -60,6 +76,7 @@ export function packed(orderId, user) {
   order.packedAt = new Date().getTime();
   order.packedBy = user.displayname;
   orders().update(order);
+  return order;
 }
 
 export function packedAndTakeNext(orderId, user) {
@@ -73,6 +90,7 @@ export function picked(orderId, user) {
   order.pickedAt = new Date().getTime();
   order.pickedBy = user.displayname;
   orders().update(order);
+  return order;
 }
 
 export function pickedAndTakeNext(orderId, user) {

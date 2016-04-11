@@ -18,7 +18,6 @@ class Header extends Component {
   }
 
   renderLoggedIn = () => {
-    console.log(this.props.title);
     return (
       <Row end="sm" center="xs">
         <Col xs={12} sm={6}>
