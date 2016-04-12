@@ -4,3 +4,4 @@ build
 orders.json
 users.json
 server/config/users.json
+files/*

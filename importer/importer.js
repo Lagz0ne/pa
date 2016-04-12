@@ -7,13 +7,16 @@ import Rx from 'rx';
 import fecha from 'fecha';
 import _ from 'lodash';
 
+import utf8 from 'utf8';
+
 import r from 'random-js';
 const random = r();
 
 
 import config from '../server/config';
 
-const stream = fs.createReadStream('./files/data.csv');
+const stream = fs.createReadStream('./files/data.csv', {encoding: 'utf8'});
+stream.setEncoding('UTF8');
 
 /** Elasticsearch client **/
 const es = new Client({
@@ -34,8 +37,7 @@ Rx.Observable.fromPromise(es.indices.exists({index: 'pulseactive'}))
       'events': {
         properties: {
           'registrationDate': {type: 'date', format: 'yyyy-MM-dd'},
-          'birthDate': {type: 'date', format: 'yyyy-MM-dd'},
-          'pickedUp': {type: 'boolean'}
+          'birthDate': {type: 'date', format: 'yyyy-MM-dd'}
         }
       }
     }
@@ -62,7 +64,7 @@ batchStream
       return persons.map(person => Object.assign({}, person, {isInGroup: true}));
     }
   })
-  .bufferWithCount(10)
+  .bufferWithCount(1000)
   .doOnNext(() => console.log('Every ten'))
   .flatMap(bufferedGroups => {
     const flattened = _.flattenDeep(bufferedGroups);
@@ -99,38 +101,42 @@ const importRegistration = (_event) => {
   if (!!!_event.registrationNumber) {
     dockingGroupArray = [];
   }
-  // indexIsReady.flatMapLatest(es.create({
-  //     index  : 'pulseactive',
-  //     type   : 'events',
-  //     id     : id,
-  //     body   : _event
-  //   }))
-  //   .subscribe(
-  //     resp => console.log(resp),
-  //     err  => console.log(err)
-  //   );
+
 }
 
 const convertDate = (_date) => {
-  const convertedDate = fecha.parse(_date, 'YYYY-M-D');
-  return fecha.format(convertedDate, 'YYYY-MM-DD');
+  try {
+    const convertedDate = fecha.parse(_date, 'YYYY-M-D');
+    return fecha.format(convertedDate, 'YYYY-MM-DD');
+  } catch(e) {
+    return "1900-01-01";
+  }
 }
 
 /** Actual import **/
 let dockingRegistrationNumber = '';
 const csvStreamer = csv()
- .on("data", function(data){
-    const [_index, eventName, regDate, regMonth, regYear,
+  .on("data", function(data){
+    console.log(data);
+    const eventName = 'CMRHCMC2016';
+    const [_index, regDate, regMonth, regYear,
+      type,
       regId,
-      lastName, middleName, firstName, birthDate, birthMonth, birthYear, gender,
-      tShirt, nationality, district, phone, email,
-      regFee, regChannel
+      lastName, middleName, firstName,
+      wholeBirthDate, birthDate, birthMonth, birthYear, gender,
+      tShirt, nationality, phone, email, district, lavieCode,
+      regFee, regChannel, note
     ] = data;
 
     const convertedRegistrationDate = convertDate(`${regYear}-${regMonth}-${regDate}`);
     const convertedBirthDate = convertDate(`${birthYear}-${birthMonth}-${birthDate}`);
 
-    const id = `${lastName}-${middleName}-${firstName}:${convertedBirthDate}`;
+    const _type = _.capitalize(type);
+    const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' : utf8.encode(_.trim(lastName));
+    const _middleName = _.trim(middleName) === '' ? '' : utf8.encode(_.trim(middleName));
+    const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' : utf8.encode(_.trim(firstName));
+    const _tShirt = tShirt === '' ? 'UNKNOWN' : _.capitalize(tShirt);
+    const id = `${_lastName}-${_middleName}-${_firstName}:${convertedBirthDate}`;
 
     let effectiveRegNo;
     if (regId !== '') {
@@ -143,7 +149,7 @@ const csvStreamer = csv()
     const eventId = `${id}-${eventName}-${convertedRegistrationDate}`;
 
     const customer = {
-      name: `${lastName} ${middleName === '' ? '' : middleName + ' '}${firstName}`,
+      name: `${_lastName} ${_middleName === '' ? '' : _middleName + ' '}${_firstName}`,
       birthDate: convertedBirthDate,
       gender,
       nationality, district, phone, email
@@ -151,11 +157,14 @@ const csvStreamer = csv()
 
     const eventObj = {
       id: eventId,
+      type: _type,
       registrationNumber: effectiveRegNo,
-      eventName, tShirt, regFee, regChannel,
-      registrationDate: convertedRegistrationDate
+      eventName,
+      tShirt: _tShirt, regFee, regChannel,
+      registrationDate: convertedRegistrationDate,
+      lavieCode
     };
-
+    // console.log(eventObj);
     importRegistration(Object.assign({}, customer, eventObj));
  })
  .on("end", function() {
