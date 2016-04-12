@@ -6,7 +6,7 @@ export default {
     "log": "debug"
   },
   "import": {
-    "host": "http://e.pu1se.work:9200",
+    "host": "http://188.166.180.154:9200",
     "log": "trace"
   },
   "loki": {

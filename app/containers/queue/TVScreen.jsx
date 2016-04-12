@@ -8,16 +8,27 @@ import _ from 'lodash';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import CircularProgress from 'material-ui/lib/circular-progress';
 
 import imageUrl from './logo.png';
 
+
+
 const BigLabel = ({label, color, counter}) => {
-  return (
-    <div style={{fontWeight: 'bold', fontSize: '155px', color: color || Colors.black}}>
+  const text = (
+    <div key={label} className={AppCss.bouncing} style={{fontWeight: 'bold', fontSize: '155px', color: color || Colors.black}}>
       <div style={{fontSize: '50px', color: Colors.white, borderBottom: `1px solid ${Colors.grey200}`}}><br/>{counter}<br/></div>
       {label}
     </div>
-  );
+  )
+
+  const nonText = (
+    <div style={{fontWeight: 'bold', fontSize: '155px', color: color || Colors.black}}>
+      <div style={{fontSize: '50px', color: Colors.white, borderBottom: `1px solid ${Colors.grey200}`}}><br/>{counter}<br/></div>
+    </div>
+  )
+
+  return label ? text : nonText;
 }
 
 let interval;
