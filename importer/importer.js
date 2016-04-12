@@ -57,11 +57,9 @@ const batchStream = new Rx.Subject();
 batchStream
   .map(persons => {
     if (persons.length === 1) {
-      persons[0].type = random.bool() ? 'Normal' : 'Lavie';
       return persons;
     } else {
-      const isInSkit = random.bool();
-      return persons.map(person => Object.assign({}, person, {isInGroup: true, type: isInSkit ? 'Normal' : 'S-Kit' }));
+      return persons.map(person => Object.assign({}, person, {isInGroup: true}));
     }
   })
   .bufferWithCount(10)

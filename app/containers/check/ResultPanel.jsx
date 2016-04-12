@@ -242,6 +242,20 @@ class ResultPanel extends Component {
                   <Col xs={5}>
                     <RaisedButton
                       disabled={true}
+                      disabledBackgroundColor={result.pickedUp
+                        ? Colors.grey100
+                        : result.type === 'Normal' ? Colors.amber500
+                          : result.type === 'Lavie' ? Colors.blue800
+                            : result.type === 'S-Kit' ? Colors.pink800 : Colors.indigo300
+                      }
+                      disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
+                      fullWidth={true}
+                      label={result.type}
+                      style={{marginTop: '5px'}}
+                      />
+                      
+                    <RaisedButton
+                      disabled={true}
                       disabledBackgroundColor={result.pickedUp ? Colors.grey100 : Colors.indigo300}
                       disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
                       fullWidth={true}
@@ -258,19 +272,7 @@ class ResultPanel extends Component {
                       style={{marginTop: '5px'}}
                       />
 
-                    <RaisedButton
-                      disabled={true}
-                      disabledBackgroundColor={result.pickedUp
-                        ? Colors.grey100
-                        : result.type === 'Normal' ? Colors.amber500
-                          : result.type === 'Lavie' ? Colors.blue800
-                            : result.type === 'S-Kit' ? Colors.pink800 : Colors.indigo300
-                      }
-                      disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
-                      fullWidth={true}
-                      label={result.type}
-                      style={{marginTop: '5px'}}
-                      />
+
 
                     {this._renderGroupButton(result)}
                   </Col>
