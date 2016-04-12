@@ -100,7 +100,6 @@ class ResultPanel extends Component {
       const inGroup = this.props.searchResult[0].isInGroup;
       const groupNumber = this.props.searchResult[0].registrationNumber;
       const shouldRender = _.every(this.props.searchResult, {isInGroup: true, registrationNumber: groupNumber});
-      console.log(shouldRender);
 
       if (shouldRender) {
         return (
@@ -148,6 +147,10 @@ class ResultPanel extends Component {
   }
 
   _renderActionButton = (result, groupedById, shouldDisableAddButton) => {
+    const inGroup = this.props.searchResult[0].isInGroup;
+    const groupNumber = this.props.searchResult[0].registrationNumber;
+    const shouldRender = _.every(this.props.searchResult, {isInGroup: true, registrationNumber: groupNumber});
+
     if (result.order) { // Already in another order
       return (
         <span>
@@ -182,7 +185,7 @@ class ResultPanel extends Component {
       console.log("Rerendering");
       return (
         <RaisedButton
-          disabled={shouldDisableAddButton}
+          disabled={shouldDisableAddButton || shouldRender}
           fullWidth={true}
           primary={true}
           labelColor={Colors.white}
@@ -197,6 +200,7 @@ class ResultPanel extends Component {
   render() {
     const addedToOrder = _.intersectionBy(this.props.searchResult, this.props.addedToOrder, 'id');
     const groupedById = _.groupBy(addedToOrder, 'id');
+
     const shouldDisableAddButton = this.props.addedToOrder.length >= 5;
     return (
       <Row>

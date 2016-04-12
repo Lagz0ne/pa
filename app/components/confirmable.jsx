@@ -16,7 +16,8 @@ const defaultProps = {
   yesLabel: 'Ready',
   noLabel: 'No',
   actionBackgroundColor: '',
-  buttonStyle: {}
+  buttonStyle: {},
+  labelStyle: {}
 }
 
 export default class Confirmable extends Component {
@@ -50,6 +51,7 @@ export default class Confirmable extends Component {
           disabled={options.disabled || (options.disableAfterAction && this.state.confirmed)}
           fullWidth={true}
           label={options.disabled ? options.disabledLabel : options.actionLabel}
+          labelStyle={options.labelStyle}
           disabledBackgroundColor={Colors.grey100}
           disabledLabelColor={Colors.grey500}
           primary={true}
@@ -69,6 +71,7 @@ export default class Confirmable extends Component {
           labelColor={Colors.white}
           fullWidth={true}
           label={options.yesLabel}
+          labelStyle={options.labelStyle}
           primary={true}
           onMouseDown={this._onYes}
           />
@@ -80,6 +83,7 @@ export default class Confirmable extends Component {
           labelColor={Colors.white}
           fullWidth={true}
           label={options.noLabel}
+          labelStyle={options.labelStyle}
           primary={true}
           onMouseDown={this._onNo}
           />

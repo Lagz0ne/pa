@@ -15,6 +15,10 @@ class OrderPanel extends Component {
     }
   }
 
+  _clearOrder = () => {
+    this.props.clearOrder();
+  }
+
   renderOrderButton = (sum, ids) => {
     if (sum > 0) {
       return (
@@ -52,6 +56,12 @@ class OrderPanel extends Component {
         <Divider/>
         <SizeLabel label="TOTAL" amount={sum} labelStyle={{fontWeight: 'bold'}}/>
         {this.renderOrderButton(sum, ids)}
+        <br/>
+        <RaisedButton
+          fullWidth={true}
+          label="Clear order"
+          onMouseDown={this._clearOrder}
+        />
       </div>
     )
   }

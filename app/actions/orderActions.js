@@ -8,6 +8,7 @@ const orderUrl = `${serverUrl}/order`;
 
 const ACTIONS = {
   ADD_TO_ORDER: 'ADD_TO_ORDER',
+  CLEAR_ORDER: 'CLEAR_ORDER',
   REMOVE_FROM_ORDER: 'REMOVE_FROM_ORDER',
   CLEAR_PREVIOUS_ORDER: 'CLEAR_PREVIOUS_ORDER',
 
@@ -131,6 +132,12 @@ export function addToOrder(registration) {
   return {
     type: ACTIONS.ADD_TO_ORDER,
     registration
+  }
+}
+
+export function clearOrder() {
+  return {
+    type: ACTIONS.CLEAR_ORDER
   }
 }
 

@@ -23,6 +23,9 @@ export default function orderReducer(state = DEFAULT_STATE, action) {
         return Object.assign({}, state, {registrations: _.uniqBy(registrations, 'id')});
       }
 
+    case orderActions.CLEAR_ORDER:
+      return Object.assign({}, state, {registrations: []});
+
     case orderActions.REMOVE_FROM_ORDER:
       const registration = action.registration;
       const currentRegistrations = state.registrations;
