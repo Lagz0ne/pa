@@ -93,21 +93,30 @@ class ResultPanel extends Component {
     const filteredArray = _.filter(this.props.searchResult, result => !!!result.orderId);
     console.log(filteredArray);
     this.props.addToOrder(filteredArray);
-
   }
 
   renderAddAllToOrderButton = () => {
     if (this.props.searchResult && this.props.searchResult.length > 0) {
-      return (
-        <Col xs={12}>
-          <RaisedButton
-            style={{marginTop: '15px', marginBottom: '15px'}}
-            primary={true}
-            onMouseDown={this.onAddAllToOrderClicked}
-            label="Add all to order"
-            />
-        </Col>
-      )
+      const inGroup = this.props.searchResult[0].isInGroup;
+      const groupNumber = this.props.searchResult[0].registrationNumber;
+      const shouldRender = _.every(this.props.searchResult, {isInGroup: true, registrationNumber: groupNumber});
+      console.log(shouldRender);
+
+      if (shouldRender) {
+        return (
+          <Col xs={12}>
+            <RaisedButton
+              style={{marginTop: '15px', marginBottom: '15px'}}
+              primary={true}
+              onMouseDown={this.onAddAllToOrderClicked}
+              label="Add all to order"
+              />
+          </Col>
+        );
+      } else {
+        return false;
+      }
+
     }
     return false;
   }
@@ -138,7 +147,7 @@ class ResultPanel extends Component {
     return false;
   }
 
-  _renderActionButton = (result, groupedById) => {
+  _renderActionButton = (result, groupedById, shouldDisableAddButton) => {
     if (result.order) { // Already in another order
       return (
         <span>
@@ -170,8 +179,10 @@ class ResultPanel extends Component {
         />
       );
     } else {
+      console.log("Rerendering");
       return (
         <RaisedButton
+          disabled={shouldDisableAddButton}
           fullWidth={true}
           primary={true}
           labelColor={Colors.white}
@@ -186,6 +197,7 @@ class ResultPanel extends Component {
   render() {
     const addedToOrder = _.intersectionBy(this.props.searchResult, this.props.addedToOrder, 'id');
     const groupedById = _.groupBy(addedToOrder, 'id');
+    const shouldDisableAddButton = this.props.addedToOrder.length >= 5;
     return (
       <Row>
         {this.renderAddAllToOrderButton()}
@@ -246,7 +258,7 @@ class ResultPanel extends Component {
               </CardText>
 
               <CardActions>
-                {this._renderActionButton(result, groupedById)}
+                {this._renderActionButton(result, groupedById, shouldDisableAddButton)}
               </CardActions>
             </Card>
           </Col>

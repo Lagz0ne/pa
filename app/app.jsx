@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router';
+import { Router, Route } from 'react-router';
 
 /** Load theme **/
 import appTheme from './app.scss';
@@ -10,6 +10,7 @@ import theme from './theme';
 
 import { history, store } from './store';
 import route from './route';
+import tvRoute from './tvRoute';
 
 /** This hack is for material ui **/
 const injectTapEventPlugin = require("react-tap-event-plugin");
@@ -24,6 +25,7 @@ class Root extends Component {
       <Provider store={store}>
         <Router history={history}>
           {route}
+          {tvRoute}
         </Router>
       </Provider>
     );

@@ -8,7 +8,6 @@ import PickScreen from './containers/pick/PickScreen';
 import PackScreen from './containers/pack/PackScreen';
 import LoginScreen from './containers/login/LoginScreen';
 import QueueScreen from './containers/queue/QueueScreen';
-import TVScreen from './containers/queue/TVScreen';
 
 import { store } from './store';
 
@@ -26,11 +25,6 @@ const autoredirect = (nextState, replace, done) => {
   const {app: {user}} = store.getState();
   const currentLocation = nextState.location.pathname;
 
-  if (currentLocation === '/tv') {
-    done();
-    return;
-  }
-  
   if (nextState.location.pathname !== '/login' && !user.isLoggedIn) {
     replace('/login');
     done();
@@ -57,6 +51,5 @@ export default(
     <Route path='/pack' components={{title: 'Packing', child: PackScreen }} />
     <Route path='/checkout' components={{title: 'Check out', child: PickScreen }} />
     <Route path='/queue' components={{title: 'Monitoring', child: QueueScreen}} />
-    <Route path='/tv' components={{child: TVScreen}} />
   </Route>
 );

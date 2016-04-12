@@ -52,7 +52,7 @@ class PackScreen extends Component {
           <Col xs={6}>
             <ConfirmableButton
               disableAfterAction={false}
-              actionLabel="Packed and take next order"
+              actionLabel="Pack and take next order"
               action={this.onPackedAndTakeNextButtonClicked}
             />
           </Col>
@@ -60,7 +60,7 @@ class PackScreen extends Component {
             <ConfirmableButton
               disableAfterAction={false}
               actionBackgroundColor={Colors.indigo500}
-              actionLabel="Packed"
+              actionLabel="Stop"
               action={this.onPackedButtonClicked}
             />
           </Col>

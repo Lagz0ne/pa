@@ -53,7 +53,7 @@ class PickScreen extends Component {
             <ConfirmableButton
               buttonStyle={{height: '80px'}}
               disableAfterAction={false}
-              actionLabel="Picked and take next order"
+              actionLabel="Check out and take next order"
               action={this.onPickedAndTakeNextButtonClicked}
             />
           </Col>
@@ -62,7 +62,7 @@ class PickScreen extends Component {
               buttonStyle={{height: '80px'}}
               disableAfterAction={false}
               actionBackgroundColor={Colors.indigo500}
-              actionLabel="Picked"
+              actionLabel="Stop"
               action={this.onPickedButtonClicked}
             />
           </Col>
