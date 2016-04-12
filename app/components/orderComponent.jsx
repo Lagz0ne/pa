@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid, Row, Col, Colors, Typography, ConfirmableButton, RaisedButton, Divider, SizeLabel} from 'components/commonComponents';
+import {Grid, Row, Col, Colors, Typography, ConfirmableButton, TypeDisplay, RaisedButton, Divider, SizeLabel} from 'components/commonComponents';
 
 import _ from 'lodash';
 
@@ -31,6 +31,8 @@ export default ({ order, orderLabelStyle }) => {
           labelStyle={_orderLabelStyle}
           label={order.orderId}
           />
+        <TypeDisplay type={order.type}/>
+        <br/>
       </Col>
       <Col xs={10}>
         <SizeLabel label="S" amount={order['S']} labelStyle={labelStyle} backgroundColor={Colors.grey200}/>

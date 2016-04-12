@@ -149,7 +149,10 @@ class ResultPanel extends Component {
   _renderActionButton = (result, groupedById, shouldDisableAddButton) => {
     const inGroup = this.props.searchResult[0].isInGroup;
     const groupNumber = this.props.searchResult[0].registrationNumber;
-    const shouldRender = _.every(this.props.searchResult, {isInGroup: true, registrationNumber: groupNumber});
+    const type = (this.props.addedToOrder && this.props.addedToOrder[0])
+      ? this.props.addedToOrder[0].type : undefined;
+    const allInGroup = _.every(this.props.searchResult, {isInGroup: true, registrationNumber: groupNumber});
+    const isDifferentInType = result.type !== type;
 
     if (result.order) { // Already in another order
       return (
@@ -182,10 +185,9 @@ class ResultPanel extends Component {
         />
       );
     } else {
-      console.log("Rerendering");
       return (
         <RaisedButton
-          disabled={shouldDisableAddButton || shouldRender}
+          disabled={result.isInGroup || shouldDisableAddButton || allInGroup || (type && isDifferentInType)}
           fullWidth={true}
           primary={true}
           labelColor={Colors.white}
@@ -253,6 +255,20 @@ class ResultPanel extends Component {
                       disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
                       fullWidth={true}
                       label={result.tShirt}
+                      style={{marginTop: '5px'}}
+                      />
+
+                    <RaisedButton
+                      disabled={true}
+                      disabledBackgroundColor={result.pickedUp
+                        ? Colors.grey100
+                        : result.type === 'Normal' ? Colors.amber500
+                          : result.type === 'Lavie' ? Colors.blue800
+                            : result.type === 'S-Kit' ? Colors.pink800 : Colors.indigo300
+                      }
+                      disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
+                      fullWidth={true}
+                      label={result.type}
                       style={{marginTop: '5px'}}
                       />
 

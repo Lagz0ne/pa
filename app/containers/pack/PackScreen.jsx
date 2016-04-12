@@ -5,6 +5,7 @@ import {
   Divider,
   SizeLabel,
   OrderPanel,
+  TypeDisplay,
   ConfirmableButton
 } from 'components/commonComponents';
 
@@ -36,7 +37,7 @@ class PackScreen extends Component {
 
     const previousOrders = this.state.previousOrders;
     previousOrders.unshift(this.props.packOrder);
-    if (previousOrders.length > 5) {
+    if (previousOrders.length > 10) {
       previousOrders.pop();
     }
 
@@ -76,8 +77,8 @@ class PackScreen extends Component {
           </Col>
           <Col xs={12} md={6}>
             <ConfirmableButton
-              buttonStyle={{height: '80px'}}
-              labelStyle={{fontWeight: 'bold', fontSize: '30px'}}
+              buttonStyle={{height: '60px'}}
+              labelStyle={{fontWeight: 'bold', fontSize: '20px'}}
               disableAfterAction={false}
               actionLabel="Pack and take next order"
               action={this.onPackedAndTakeNextButtonClicked}
@@ -85,8 +86,8 @@ class PackScreen extends Component {
           </Col>
           <Col xs={12} md={6}>
             <ConfirmableButton
-              buttonStyle={{height: '80px'}}
-              labelStyle={{fontWeight: 'bold', fontSize: '30px'}}
+              buttonStyle={{height: '60px'}}
+              labelStyle={{fontWeight: 'bold', fontSize: '20px'}}
               disableAfterAction={false}
               actionBackgroundColor={Colors.indigo500}
               actionLabel="Stop"

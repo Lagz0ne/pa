@@ -178,14 +178,15 @@ export function createOrderRequestFailure(affinity, ids) {
   }
 }
 
-export function createOrder(affinity, ids) {
+export function createOrder(affinity, ids, type) {
   return dispatch => {
     dispatch(createOrderRequest(affinity, ids));
     return request
       .post(`${orderUrl}/`)
       .send({
         affinity,
-        ids
+        ids,
+        type
       })
       .set('Accept', 'application/json')
       .end((err, res) => {

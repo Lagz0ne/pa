@@ -179,7 +179,7 @@ export const resetOrder = (type, orderId, user) => {
 }
 
 /** Return order **/
-export const createOrderAndCheck = (affinity, ids, actor) => {
+export const createOrderAndCheck = (affinity, ids, type, actor) => {
   const orderId = affinity + nextToken(affinity);
 
   return registrationStore
@@ -200,7 +200,8 @@ export const createOrderAndCheck = (affinity, ids, actor) => {
         picked: false,
         isPickingBy: '',
         pickedBy: '',
-        pickedAt: ''
+        pickedAt: '',
+        type
       }
 
       _.forEach(result, item => {

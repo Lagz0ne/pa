@@ -5,8 +5,9 @@ export function createOrder(req, res) {
   const loggedInUser = req.user;
   const ids = req.body.ids;
   const affinity = req.body.affinity;
+  const type = req.body.type;
 
-  orderService.createOrderAndCheck(affinity, ids, loggedInUser)
+  orderService.createOrderAndCheck(affinity, ids, type, loggedInUser)
     .subscribe(
       result => res.json(result),
       err    => {

@@ -2,6 +2,8 @@
 export const ConfirmableButton = require('./confirmable').default;
 export const SizeLabel = require('./sizeLabel').default;
 export const OrderPanel = require('./orderComponent').default;
+export const TypeDisplay = require('./typeDisplay').default;
+
 export const RaisedButton = require('material-ui/lib/raised-button');
 export const FlatButton = require('material-ui/lib/flat-button');
 export const Divider = require('material-ui/lib/divider');

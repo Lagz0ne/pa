@@ -15,7 +15,7 @@ class LoadStatus extends Component {
   render() {
     return (
       <Snackbar
-        style={{fontFamily: 'Open Sans', fontSize: '20px'}}
+        bodyStyle={{fontFamily: 'Open Sans', fontSize: '25px'}}
         open={this.props.isLoading}
         message={this.props.loadingText ? this.props.loadingText : `Loading ...`}
         onRequestClose={this.onClosing}

@@ -11,7 +11,7 @@ class OrderPanel extends Component {
 
   placeOrder = (ids) => {
     return (e) => {
-      this.props.createOrder(this.props.affinity, ids);
+      this.props.createOrder(this.props.affinity, ids, this.props.registrations[0].type);
     }
   }
 

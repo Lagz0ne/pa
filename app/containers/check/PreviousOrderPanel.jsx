@@ -18,6 +18,8 @@ class PreviousOrderPanel extends Component {
         <Col xs={12}>
           <OrderPanel order={this.props.previousOrder} />
           <ConfirmableButton
+            buttonStyle={{height: '60px'}}
+            labelStyle={{fontWeight: 'bold', fontSize: '20px'}}
             actionLabel="Next check in"
             action={this.onNewOrderClicked}
           />

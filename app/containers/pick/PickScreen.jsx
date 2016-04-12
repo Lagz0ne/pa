@@ -36,7 +36,7 @@ class PickScreen extends Component {
 
     const previousOrders = this.state.previousOrders;
     previousOrders.unshift(this.props.pickOrder);
-    if (previousOrders.length > 5) {
+    if (previousOrders.length > 10) {
       previousOrders.pop();
     }
 

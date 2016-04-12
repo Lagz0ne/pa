@@ -7,6 +7,10 @@ import Rx from 'rx';
 import fecha from 'fecha';
 import _ from 'lodash';
 
+import r from 'random-js';
+const random = r();
+
+
 import config from '../server/config';
 
 const stream = fs.createReadStream('./files/data.csv');
@@ -53,9 +57,11 @@ const batchStream = new Rx.Subject();
 batchStream
   .map(persons => {
     if (persons.length === 1) {
+      persons[0].type = random.bool() ? 'Normal' : 'Lavie';
       return persons;
     } else {
-      return persons.map(person => Object.assign({}, person, {isInGroup: true}));
+      const isInSkit = random.bool();
+      return persons.map(person => Object.assign({}, person, {isInGroup: true, type: isInSkit ? 'Normal' : 'S-Kit' }));
     }
   })
   .bufferWithCount(10)
