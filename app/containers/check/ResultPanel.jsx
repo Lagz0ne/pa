@@ -85,7 +85,12 @@ class ResultPanel extends Component {
           onMouseDown={this.onRegistrationClicked(result.registrationNumber)} />
       );
     } else {
-      return false;
+      return (
+        <div>
+          <br/>
+          <br/>
+        </div>
+      );
     }
   }
 
@@ -100,11 +105,13 @@ class ResultPanel extends Component {
       const inGroup = this.props.searchResult[0].isInGroup;
       const groupNumber = this.props.searchResult[0].registrationNumber;
       const shouldRender = _.every(this.props.searchResult, {isInGroup: true, registrationNumber: groupNumber});
+      const shouldBeEnabled = _.find(this.props.searchResult, result => !!!result.orderId);
 
       if (shouldRender) {
         return (
           <Col xs={12}>
             <RaisedButton
+              enabled={shouldBeEnabled}
               style={{marginTop: '15px', marginBottom: '15px'}}
               primary={true}
               onMouseDown={this.onAddAllToOrderClicked}
@@ -242,20 +249,6 @@ class ResultPanel extends Component {
                   <Col xs={5}>
                     <RaisedButton
                       disabled={true}
-                      disabledBackgroundColor={result.pickedUp
-                        ? Colors.grey100
-                        : result.type === 'Normal' ? Colors.amber500
-                          : result.type === 'Lavie' ? Colors.blue800
-                            : result.type === 'S-Kit' ? Colors.pink800 : Colors.indigo300
-                      }
-                      disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
-                      fullWidth={true}
-                      label={result.type}
-                      style={{marginTop: '5px'}}
-                      />
-                      
-                    <RaisedButton
-                      disabled={true}
                       disabledBackgroundColor={result.pickedUp ? Colors.grey100 : Colors.indigo300}
                       disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
                       fullWidth={true}
@@ -271,8 +264,6 @@ class ResultPanel extends Component {
                       label={result.tShirt}
                       style={{marginTop: '5px'}}
                       />
-
-
 
                     {this._renderGroupButton(result)}
                   </Col>

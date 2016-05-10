@@ -7,39 +7,9 @@ import _ from 'lodash';
 import * as orderActions from 'actions/orderActions';
 
 
-class OrderPanel extends Component {
+class HistoryOrderPanel extends Component {
 
-  placeOrder = (ids) => {
-    return (e) => {
-      this.props.createOrder(this.props.affinity, ids, this.props.registrations[0].type);
-    }
-  }
-
-  _clearOrder = () => {
-    this.props.clearOrder();
-  }
-
-  renderOrderButton = (sum, ids) => {
-    if (sum > 0) {
-      return (
-        <div>
-          <ConfirmableButton
-            disableAfterAction={false}
-            actionLabel='Place order'
-            action={this.placeOrder(ids)}
-          />
-          <br/>
-          <RaisedButton
-            fullWidth={true}
-            label="Clear order"
-            onMouseDown={this._clearOrder}
-          />
-        </div>
-      )
-    }
-  }
-
-  renderOrderSummary = (group, ids, sum) => {
+  renderOrderSummary = (group, sum, orderId) => {
     return (
       <div style={{width: '100%'}} key={group}>
         <Row>
@@ -51,7 +21,7 @@ class OrderPanel extends Component {
               fullWidth={true}
               style={{paddingTop: '10px'}}
               labelStyle={{fontWeight: 'bold'}}
-              label="Order"
+              label={`Order ${orderId}`}
               />
           </Col>
         </Row>
@@ -63,18 +33,24 @@ class OrderPanel extends Component {
         <SizeLabel label="XXL" amount={group['XXL']} />
         <Divider/>
         <SizeLabel label="TOTAL" amount={sum} labelStyle={{fontWeight: 'bold'}}/>
-        {this.renderOrderButton(sum, ids)}
       </div>
     )
   }
 
   render() {
 
-    const registrations = this.props.registrations;
-
-    if (!registrations || registrations.length === 0) {
+    const searchResult = this.props.searchResult;
+    if (!searchResult || searchResult.length === 0) {
       return false;
     }
+
+    const firstResult = searchResult[0];
+    const sameOrder = _.every(searchResult, { orderId: firstResult.orderId });
+    if (!sameOrder) {
+      return false;
+    }
+
+    const orderId = firstResult.orderId;
 
     let sum = 0;
     const orderDetail = {
@@ -85,22 +61,18 @@ class OrderPanel extends Component {
       'XXL': 0
     };
 
-    const ids = [];
-    _.forEach(registrations, (registration) => {
-      orderDetail[registration.tShirt] = orderDetail[registration.tShirt] + 1;
-      ids.push(registration.id);
+    _.forEach(searchResult, (searchResult) => {
+      orderDetail[searchResult.tShirt] = orderDetail[searchResult.tShirt] + 1;
       sum += 1;
     });
 
-    return this.renderOrderSummary(orderDetail, ids, sum);
+    return this.renderOrderSummary(orderDetail, sum, orderId);
   }
 }
 
 export default connect(
   state => ({
-    nextOrderId: state.app.order.nextOrderId,
-    registrations: state.app.order.registrations,
-    affinity: state.app.order.affinity
+    searchResult: state.app.search.searchResult
   }),
   dispatch => bindActionCreators(orderActions, dispatch)
-)(OrderPanel);
+)(HistoryOrderPanel);

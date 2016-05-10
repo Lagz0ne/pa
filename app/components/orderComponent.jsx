@@ -31,8 +31,6 @@ export default ({ order, orderLabelStyle }) => {
           labelStyle={_orderLabelStyle}
           label={order.orderId}
           />
-        <TypeDisplay type={order.type}/>
-        <br/>
       </Col>
       <Col xs={10}>
         <SizeLabel label="S" amount={order['S']} labelStyle={labelStyle} backgroundColor={Colors.grey200}/>

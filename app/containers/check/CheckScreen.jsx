@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import SearchPanel from './SearchPanel';
 import ResultPanel from './ResultPanel';
 import OrderPanel from './OrderPanel';
+import HistoryOrderPanel from './HistoryOrderPanel';
 import PreviousOrderPanel from './PreviousOrderPanel';
 
 class SearchScreen extends Component {
@@ -15,6 +16,7 @@ class SearchScreen extends Component {
     <Row>
       <Col xs={12} sm={3} md={2}>
         <SearchPanel />
+        <HistoryOrderPanel />
         <OrderPanel />
       </Col>
       <Col xs={12} sm={9} md={10}>

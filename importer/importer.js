@@ -10,6 +10,7 @@ import _ from 'lodash';
 import r from 'random-js';
 const random = r();
 
+import Diacritics from 'diacritic';
 
 import config from '../server/config';
 
@@ -63,7 +64,6 @@ batchStream
     }
   })
   .bufferWithCount(1000)
-  .doOnNext(() => console.log('Every ten'))
   .flatMap(bufferedGroups => {
     const flattened = _.flattenDeep(bufferedGroups);
     const indexList = _.reduce(flattened, (acc, person) => {
@@ -115,7 +115,6 @@ const convertDate = (_date) => {
 let dockingRegistrationNumber = '';
 const csvStreamer = csv()
   .on("data", function(data){
-    console.log(data);
     const eventName = 'CMRHCMC2016';
     const [_index, regDate, regMonth, regYear,
       type,
@@ -130,10 +129,10 @@ const csvStreamer = csv()
     const convertedBirthDate = convertDate(`${birthYear}-${birthMonth}-${birthDate}`);
 
     const _type = _.capitalize(type);
-    const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' : _.trim(lastName);
-    const _middleName = _.trim(middleName) === '' ? '' : _.trim(middleName);
-    const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' : _.trim(firstName);
-    const _tShirt = tShirt === '' ? 'UNKNOWN' : _.capitalize(tShirt);
+    const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' : _.capitalize(Diacritics.clean(lastName));
+    const _middleName = _.trim(middleName) === '' ? '' : _.capitalize(Diacritics.clean(middleName));
+    const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' : _.capitalize(Diacritics.clean(firstName));
+    const _tShirt = tShirt === '' ? 'UNKNOWN' : _.upperCase(tShirt);
     const id = `${_lastName}-${_middleName}-${_firstName}:${convertedBirthDate}`;
 
     let effectiveRegNo;
@@ -147,7 +146,8 @@ const csvStreamer = csv()
     const eventId = `${id}-${eventName}-${convertedRegistrationDate}`;
 
     const customer = {
-      name: `${_lastName} ${_middleName === '' ? '' : _middleName + ' '}${_firstName}`,
+      name: `${lastName} ${middleName === '' ? '' : middleName + ' '}${firstName}`,
+      cleanedName: `${_lastName} ${_middleName === '' ? '' : _middleName + ' '}${_firstName}`,
       birthDate: convertedBirthDate,
       gender,
       nationality, district, phone, email
@@ -156,13 +156,11 @@ const csvStreamer = csv()
     const eventObj = {
       id: eventId,
       type: _type,
-      registrationNumber: effectiveRegNo,
+      registrationNumber: `G${effectiveRegNo}`,
       eventName,
       tShirt: _tShirt, regFee, regChannel,
-      registrationDate: convertedRegistrationDate,
-      lavieCode
+      registrationDate: convertedRegistrationDate
     };
-    // console.log(eventObj);
     importRegistration(Object.assign({}, customer, eventObj));
  })
  .on("end", function() {
