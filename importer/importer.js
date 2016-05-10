@@ -7,8 +7,6 @@ import Rx from 'rx';
 import fecha from 'fecha';
 import _ from 'lodash';
 
-import utf8 from 'utf8';
-
 import r from 'random-js';
 const random = r();
 
@@ -132,9 +130,9 @@ const csvStreamer = csv()
     const convertedBirthDate = convertDate(`${birthYear}-${birthMonth}-${birthDate}`);
 
     const _type = _.capitalize(type);
-    const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' : utf8.encode(_.trim(lastName));
-    const _middleName = _.trim(middleName) === '' ? '' : utf8.encode(_.trim(middleName));
-    const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' : utf8.encode(_.trim(firstName));
+    const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' : _.trim(lastName);
+    const _middleName = _.trim(middleName) === '' ? '' : _.trim(middleName);
+    const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' : _.trim(firstName);
     const _tShirt = tShirt === '' ? 'UNKNOWN' : _.capitalize(tShirt);
     const id = `${_lastName}-${_middleName}-${_firstName}:${convertedBirthDate}`;
 

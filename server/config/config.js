@@ -1,10 +1,10 @@
 export default {
   "es": {
-    "host": "http://docker:9200",
+    "host": "http://localhost:9200",
     "log": "trace"
   },
   "import": {
-    "host": "http://docker:9200/",
+    "host": "http://localhost:9200/",
     "log": "trace"
   },
   "loki": {
