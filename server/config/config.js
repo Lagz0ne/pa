@@ -1,3 +1,5 @@
+const FILE = process.env.FILE ? process.env.FILE : 'data.csv';
+
 export default {
   "es": {
     "host": "http://localhost:9200",
@@ -5,7 +7,8 @@ export default {
   },
   "import": {
     "host": "http://localhost:9200/",
-    "log": "trace"
+    "log": "trace",
+    "file": './files/' + FILE
   },
   "loki": {
     "orders": "orders.json",

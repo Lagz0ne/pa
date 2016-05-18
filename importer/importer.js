@@ -14,8 +14,10 @@ import Diacritics from 'diacritic';
 
 import config from '../server/config';
 
-const stream = fs.createReadStream('./files/data.csv', {encoding: 'utf8'});
+const stream = fs.createReadStream(config.import.file, {encoding: 'utf8'});
 stream.setEncoding('UTF8');
+
+console.log("Importing from " + config.import.file);
 
 /** Elasticsearch client **/
 const es = new Client({
@@ -114,8 +116,8 @@ const convertDate = (_date) => {
 /** Actual import **/
 let dockingRegistrationNumber = '';
 const csvStreamer = csv()
-  .on("data", function(data){
-    const eventName = 'CMRHCMC2016';
+  .on("data", function(data) {
+    const eventName = 'CMRHN2016';
     const [_index, regDate, regMonth, regYear,
       type,
       regId,
@@ -125,15 +127,18 @@ const csvStreamer = csv()
       regFee, regChannel, note
     ] = data;
 
+    if (regDate == "0") return;
+
     const convertedRegistrationDate = convertDate(`${regYear}-${regMonth}-${regDate}`);
     const convertedBirthDate = convertDate(`${birthYear}-${birthMonth}-${birthDate}`);
 
-    const _type = _.capitalize(type);
-    const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' : _.capitalize(Diacritics.clean(lastName));
+    const _type = _.lowerCase(type);
+    const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' + random.string(4) : _.capitalize(Diacritics.clean(lastName));
     const _middleName = _.trim(middleName) === '' ? '' : _.capitalize(Diacritics.clean(middleName));
-    const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' : _.capitalize(Diacritics.clean(firstName));
+    const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' + random.string(4) : _.capitalize(Diacritics.clean(firstName));
     const _tShirt = tShirt === '' ? 'UNKNOWN' : _.upperCase(tShirt);
-    const id = `${_lastName}-${_middleName}-${_firstName}:${convertedBirthDate}`;
+
+    const id = `${_lastName}-${_middleName}-${_firstName}:${convertedBirthDate}-${random.string(2)}`;
 
     let effectiveRegNo;
     if (regId !== '') {
@@ -143,7 +148,8 @@ const csvStreamer = csv()
       effectiveRegNo = dockingRegistrationNumber;
     }
 
-    const eventId = `${id}-${eventName}-${convertedRegistrationDate}`;
+    const eventId = `${id}-${eventName}-${effectiveRegNo}`;
+    if (_tShirt === 'UNKNOWN') console.log("EEEEEEEEEEEE there's an unknown T-shirt " + eventId);
 
     const customer = {
       name: `${lastName} ${middleName === '' ? '' : middleName + ' '}${firstName}`,

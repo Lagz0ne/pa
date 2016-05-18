@@ -1,4 +1,5 @@
 const ES_HOST = process.env.ES_PORT_9200_TCP ? process.env.ES_PORT_9200_TCP.replace('tcp', 'http') : 'http://es:9200';
+const FILE = process.env.FILE ? process.env.FILE : 'data.csv';
 
 export default {
   "es": {
@@ -6,8 +7,9 @@ export default {
     "log": "debug"
   },
   "import": {
-    "host": "http://188.166.180.154:9200",
-    "log": "trace"
+    "host": "http://pu1se.work:9200",
+    "log": "debug",
+    "file": './files/' + FILE
   },
   "loki": {
     "orders": "/var/data/loki/orders.json",
