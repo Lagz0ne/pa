@@ -250,7 +250,7 @@ class ResultPanel extends Component {
                     <RaisedButton
                       disabled={true}
                       disabledBackgroundColor={result.pickedUp ? Colors.grey100
-                        : result.type === 's kit' ? Colors.red500 : Colors.indigo300}
+                        : result.type === 'extra' ? Colors.red500 : Colors.indigo300}
                       disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
                       fullWidth={true}
                       label={result.type}

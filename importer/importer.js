@@ -117,22 +117,23 @@ const convertDate = (_date) => {
 let dockingRegistrationNumber = '';
 const csvStreamer = csv()
   .on("data", function(data) {
-    const eventName = 'CMRHN2016';
+    const eventName = 'CMRDN2016';
     const [_index, regDate, regMonth, regYear,
       type,
       regId,
       lastName, middleName, firstName,
-      wholeBirthDate, birthDate, birthMonth, birthYear, gender,
+      //wholeBirthDate,
+      birthDate, birthMonth, birthYear, gender,
       tShirt, nationality, phone, email, district, lavieCode,
       regFee, regChannel, note
     ] = data;
 
-    if (regDate == "0") return;
+    if (regDate == "0" || _.isEmpty(regDate)) return;
 
     const convertedRegistrationDate = convertDate(`${regYear}-${regMonth}-${regDate}`);
     const convertedBirthDate = convertDate(`${birthYear}-${birthMonth}-${birthDate}`);
 
-    const _type = _.lowerCase(type);
+    const _type = _.lowerCase(type) === 'extra' ? 's kit' : _.lowerCase(type);
     const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' + random.string(4) : _.capitalize(Diacritics.clean(lastName));
     const _middleName = _.trim(middleName) === '' ? '' : _.capitalize(Diacritics.clean(middleName));
     const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' + random.string(4) : _.capitalize(Diacritics.clean(firstName));

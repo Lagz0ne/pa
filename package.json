@@ -10,7 +10,7 @@
     "build": "rm -rf build && node webpack.build.js",
     "release": "npm run build && export VERSION=$(date +%Y%m%d%H%M) && docker build -t lagz0ne/cmr:build-$(echo $VERSION) . && docker push lagz0ne/cmr:build-$(echo $VERSION) && docker build -t lagz0ne/cmr:latest . && docker push lagz0ne/cmr:latest",
     "import": "node importer/importer.babel.js",
-    "import:production": "NODE_ENV=production node importer/importer.babel.js",
+    "import:production": "set NODE_ENV=production&& node importer/importer.babel.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
