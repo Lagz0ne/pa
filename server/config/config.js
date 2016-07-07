@@ -2,13 +2,13 @@ const FILE = process.env.FILE ? process.env.FILE : 'data.csv';
 
 export default {
   "es": {
-    "host": "http://localhost:9200",
+    "host": "http://pu1se.work:9200",
     "log": "trace"
   },
   "import": {
-    "host": "http://localhost:9200/",
+    "host": "http://pu1se.work:9200/",
     "log": "trace",
-    "file": './files/' + FILE
+    "file": './files/' + 'DNIM-2016-2.csv'
   },
   "loki": {
     "orders": "orders.json",

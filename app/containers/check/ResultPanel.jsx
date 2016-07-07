@@ -211,6 +211,10 @@ class ResultPanel extends Component {
     const groupedById = _.groupBy(addedToOrder, 'id');
 
     const shouldDisableAddButton = this.props.addedToOrder.length >= 5;
+    const color = (result) => result.type === '5 km' ? Colors.green600
+      : result.type === '10 km' ? Colors.teal600
+      : result.type === '21 km' ? Colors.brown600
+      : Colors.indigo500;
     return (
       <Row>
         {this.renderAddAllToOrderButton()}
@@ -249,8 +253,16 @@ class ResultPanel extends Component {
                   <Col xs={5}>
                     <RaisedButton
                       disabled={true}
-                      disabledBackgroundColor={result.pickedUp ? Colors.grey100
-                        : result.type === 'extra' ? Colors.red500 : Colors.indigo300}
+                      disabledBackgroundColor={Colors.red500}
+                      disabledLabelColor={Colors.white}
+                      fullWidth={true}
+                      label={result.bib}
+                      style={{marginTop: '5px'}}
+                      />
+
+                    <RaisedButton
+                      disabled={true}
+                      disabledBackgroundColor={result.pickedUp ? Colors.grey100 : color(result)}
                       disabledLabelColor={result.pickedUp ? Colors.grey500 : Colors.white}
                       fullWidth={true}
                       label={result.type}

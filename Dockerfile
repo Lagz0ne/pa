@@ -11,6 +11,6 @@ ADD .babelrc /var/app
 RUN mkdir -p /var/data/loki
 RUN touch /var/data/loki/orders.json
 ADD server/config/users.json /var/data/loki/users.json
-VOLUME /var/data/loki
+VOLUME /var/data/dn
 
 CMD npm run start:production

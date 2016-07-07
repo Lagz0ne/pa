@@ -117,15 +117,14 @@ const convertDate = (_date) => {
 let dockingRegistrationNumber = '';
 const csvStreamer = csv()
   .on("data", function(data) {
-    const eventName = 'CMRDN2016';
-    const [_index, regDate, regMonth, regYear,
-      type,
+    const [_index, eventName, regDate, regMonth, regYear, regChannel,
       regId,
+      type,
+      bib,
       lastName, middleName, firstName,
       //wholeBirthDate,
       birthDate, birthMonth, birthYear, gender,
-      tShirt, nationality, phone, email, district, lavieCode,
-      regFee, regChannel, note
+      tShirt, nationality, country, countryCode, phone, email
     ] = data;
 
     if (regDate == "0" || _.isEmpty(regDate)) return;
@@ -157,7 +156,7 @@ const csvStreamer = csv()
       cleanedName: `${_lastName} ${_middleName === '' ? '' : _middleName + ' '}${_firstName}`,
       birthDate: convertedBirthDate,
       gender,
-      nationality, district, phone, email
+      nationality, phone, email, bib
     };
 
     const eventObj = {
@@ -165,7 +164,7 @@ const csvStreamer = csv()
       type: _type,
       registrationNumber: `G${effectiveRegNo}`,
       eventName,
-      tShirt: _tShirt, regFee, regChannel,
+      tShirt: _tShirt, regChannel,
       registrationDate: convertedRegistrationDate
     };
     importRegistration(Object.assign({}, customer, eventObj));
