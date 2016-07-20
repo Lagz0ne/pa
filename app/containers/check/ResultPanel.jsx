@@ -129,7 +129,7 @@ class ResultPanel extends Component {
 
   _renderStatus = (orderId, isDone, doneLabel, isDoing, doingLabel, byWhom, when) => {
     if (isDone) {
-      const formattedDate = fecha.format(when, 'dd/MM/YYYY hh:mm');
+      const formattedDate = fecha.format(when, 'DD/MM/YYYY HH:mm');
       return (
         <RaisedButton
           disabled={true}
