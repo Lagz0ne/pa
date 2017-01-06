@@ -3,7 +3,7 @@ const FILE = process.env.FILE ? process.env.FILE : 'data.csv';
 
 export default {
   "es": {
-    "host": ES_HOST,
+    "host": "http://pu1se.work:9200",
     "log": "debug"
   },
   "import": {
