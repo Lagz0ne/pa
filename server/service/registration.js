@@ -8,10 +8,10 @@ export function search(searchKeyword) {
       index: 'pulseactive',
       type : 'events',
       size : 50,
-      sort: [
-        // {"pickedUp": {"missing": "_first"}},
-        "name"
-      ],
+      // sort: [
+      //   // {"pickedUp": {"missing": "_first"}},
+      //   "name"
+      // ],
       body: {
         "query" : {
           "query_string": {

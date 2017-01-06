@@ -84,7 +84,6 @@ batchStream
   });
 
 const importRegistration = (_event) => {
-
   if (_event.registrationNumber === dockingGroupNumber) {
     dockingGroupArray.push(_event);
   } else if (dockingGroupNumber === '') { // First entry
@@ -117,22 +116,24 @@ const convertDate = (_date) => {
 let dockingRegistrationNumber = '';
 const csvStreamer = csv()
   .on("data", function(data) {
-    const [_index, eventName, regDate, regMonth, regYear, regChannel,
+    const eventName = 'DNIM';
+    const [_index, // regDate, regMonth, regYear, regChannel,
       regId,
-      type,
       bib,
+      type,
       lastName, middleName, firstName,
       //wholeBirthDate,
       birthDate, birthMonth, birthYear, gender,
-      tShirt, nationality, country, countryCode, phone, email
+      tShirt, nationality, phone, email
     ] = data;
 
-    if (regDate == "0" || _.isEmpty(regDate)) return;
+    console.log(_.isNumber(_.toInteger(_index)));
+    if (!_.isNumber(_.toInteger(_index))) return;
 
-    const convertedRegistrationDate = convertDate(`${regYear}-${regMonth}-${regDate}`);
+    // const convertedRegistrationDate = convertDate(`${regYear}-${regMonth}-${regDate}`);
     const convertedBirthDate = convertDate(`${birthYear}-${birthMonth}-${birthDate}`);
 
-    const _type = _.lowerCase(type) === 'extra' ? 's kit' : _.lowerCase(type);
+    const _type = _.toLower(type) === 'extra' ? 's kit' : _.toLower(type);
     const _lastName = _.trim(lastName) === '' ? 'UNKNOWN' + random.string(4) : _.capitalize(Diacritics.clean(lastName));
     const _middleName = _.trim(middleName) === '' ? '' : _.capitalize(Diacritics.clean(middleName));
     const _firstName = _.trim(firstName) === '' ? 'UNKNOWN' + random.string(4) : _.capitalize(Diacritics.clean(firstName));
@@ -164,8 +165,9 @@ const csvStreamer = csv()
       type: _type,
       registrationNumber: `G${effectiveRegNo}`,
       eventName,
-      tShirt: _tShirt, regChannel,
-      registrationDate: convertedRegistrationDate
+      tShirt: _tShirt 
+      // regChannel
+      // ,registrationDate: convertedRegistrationDate
     };
     importRegistration(Object.assign({}, customer, eventObj));
  })

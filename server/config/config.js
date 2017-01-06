@@ -8,7 +8,7 @@ export default {
   "import": {
     "host": "http://pu1se.work:9200/",
     "log": "trace",
-    "file": './files/' + 'DNIM-2016-2.csv'
+    "file": './files/' + 'DNIM 2016.csv'
   },
   "loki": {
     "orders": "orders.json",

@@ -211,9 +211,9 @@ class ResultPanel extends Component {
     const groupedById = _.groupBy(addedToOrder, 'id');
 
     const shouldDisableAddButton = this.props.addedToOrder.length >= 5;
-    const color = (result) => result.type === '5 km' ? Colors.green600
-      : result.type === '10 km' ? Colors.teal600
-      : result.type === '21 km' ? Colors.brown600
+    const color = (result) => result.type === '5KM' ? Colors.green600
+      : result.type === '10KM' ? Colors.teal600
+      : result.type === '21KM' ? Colors.brown600
       : Colors.indigo500;
     return (
       <Row>
@@ -226,15 +226,6 @@ class ResultPanel extends Component {
               <CardText>
                 <Row top="xs">
                   <Col xs={7}>
-                    <RaisedButton
-                      disabled={true}
-                      label={this._convertDate(result.birthDate)}
-                      labelPosition="after"
-                      linkButton={true}
-                      disabledBackgroundColor={Colors.white}
-                      disabledLabelColor={Colors.grey800}
-                      icon={<DateIcon />}
-                    />
                     <br/>
 
                     <RaisedButton
